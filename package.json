@@ -1,0 +1,28 @@
+{
+  "name": "scm-repository-catalogue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint .",
+    "test": "lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/scm-repository-catalogue.git"
+  },
+  "author": "Chris Nesbitt-Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/scm-repository-catalogue/issues"
+  },
+  "homepage": "https://github.com/UKHomeOffice/scm-repository-catalogue#readme",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "github": "^14.0.0",
+    "js-yaml": "^3.13.1",
+    "octokat": "^0.4.18"
+  }
+}
