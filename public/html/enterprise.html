@@ -16,23 +16,21 @@
   <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
 
   <!--[if !IE 8]><!-->
-  <link rel="stylesheet" href="stylesheets/govuk-frontend-4.3.0.min.css">
+  <link rel="stylesheet" href="../stylesheets/govuk-frontend-4.3.0.min.css">
   <!--<![endif]-->
 
   <!--[if IE 8]>
-  <link href="stylesheets/govuk-frontend-ie8-4.3.0.min.css" rel="stylesheet">
+  <link href="../stylesheets/govuk-frontend-ie8-4.3.0.min.css" rel="stylesheet">
   <![endif]-->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" integrity="sha512-Lrd4lY1eAdzAhDC85I72/+oDee8Zut38nRh9fKQsssTHhm91CRwwOAwjPB0M7UtSlWryD1dHVTBbyLadXwUJDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min.js" integrity="sha512-6s/BWhljWxvmUrMUuWTBqXCWNvR/pN665yr80pB68s1KaqrDOVnqGMKi6WdzuzVNFhKyo2h43gPbUkVjH2Tgtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     var App = angular.module('App', ['ngAria']);
-    App.controller('ReposController', function ($scope, $http) {
-      $http.get('https://raw.githubusercontent.com/UKHomeOffice/ho-repo-scraper/gh-pages/repos.json')
+    App.controller('EnterpriseController', function ($scope, $http) {
+      $http.get('https://raw.githubusercontent.com/UKHomeOffice/ho-repo-scraper/gh-pages/enterprise.json')
               .then(function (res) {
-                $scope.repos = res.data
-                $scope.sortType = 'stargazersCount'
-                $scope.sortReverse = true
+                console.log(res)
+                $scope.licence = res.data.licence
               })
     });
   </script>
@@ -74,7 +72,7 @@
 
         <ul id="navigation" class="govuk-header__navigation-list">
           <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
-            <a class="govuk-header__link" href="#1">
+            <a class="govuk-header__link" href="../index.html">
               Repositories
             </a>
           </li>
@@ -89,12 +87,12 @@
             </a>
           </li>
           <li class="govuk-header__navigation-item">
-            <a class="govuk-header__link" href="html/convergence.html">
+            <a class="govuk-header__link" href="convergence.html">
               Convergence
             </a>
           </li>
           <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
-            <a class="govuk-header__link" href="html/enterprise.html">
+            <a class="govuk-header__link" href="enterprise.html">
               Enterprise
             </a>
           </li>
@@ -105,44 +103,28 @@
 </header>
 
 <div class="govuk-width-container ">
-  <main class="govuk-main-wrapper " id="main-content" role="main" ng-controller="ReposController">
-    <h1 class="govuk-heading-xl">GitHub Repository Catalogue</h1>
+  <main class="govuk-main-wrapper " id="main-content" role="main" ng-controller="EnterpriseController">
+    <h1 class="govuk-heading-xl">Enterprise</h1>
 
-    <p class="govuk-body" ng-if="!repos">LOADING... Page can take a while to render</p>
-    <p class="govuk-body" ng-if="repos">Currently showing {{repos.length}} public repositories</p>
-    <table class="govuk-table" ng-if="repos">
+    <table class="govuk-table" ng-if="licence">
       <thead class="govuk-table__head">
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Owner</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Name</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'description'; sortReverse = !sortReverse">Description</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'visibility'; sortReverse = !sortReverse">Visibility</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'license'; sortReverse = !sortReverse">License</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'archived'; sortReverse = !sortReverse">Archived</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'language'; sortReverse = !sortReverse">Language</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'stargazersCount'; sortReverse = !sortReverse">Stars</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'openIssuesCount'; sortReverse = !sortReverse">Issues</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'forksCount'; sortReverse = !forksCount">Forks</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'updatedAt'; sortReverse = !updatedAt">Updated</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'pushedAt'; sortReverse = !pushedAt">Pushed</a></th>
+      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Licence Usage</a></th>
+      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Number of licences</a></th>
       </thead>
       <tbody class="govuk-table__body">
-      <tr class="govuk-table__row" ng-repeat="repo in repos | orderBy:sortType:sortReverse">
-        <td class="govuk-table__cell"><a ng-href="https://github.com/{{repo.owner}}" ng-bind=repo.owner></a></td>
-        <td class="govuk-table__cell"><a ng-href="{{repo.url}}" ng-bind="repo.name"></a></td>
-        <td class="govuk-table__cell" ng-bind=repo.description></td>
-        <td class="govuk-table__cell" ng-bind=repo.visibility></td>
-        <td class="govuk-table__cell"><a ng-if="repo.license && repo.license.name != 'Other'" ng-href="{{repo.license.url}}" ng-bind="repo.license.name"></a>
-          <a ng-if="repo.license && repo.license.name == 'Other'" ng-href="{{repo.url}}/blob/master/LICENSE" ng-bind="repo.license.name"></a>
-          <span ng-if="!repo.license" class="fa fa-times" title="NO"></span>
-        </td>
-        <td class="govuk-table__cell" ng-bind=repo.archived></td>
-        <td class="govuk-table__cell" ng-bind=repo.language></td>
-        <td class="govuk-table__cell" ng-bind="repo.stargazersCount | number"></td>
-        <td class="govuk-table__cell" ng-bind="repo.openIssuesCount | number"></td>
-        <td class="govuk-table__cell" ng-bind="repo.forksCount | number"></td>
-        <td class="govuk-table__cell" ng-bind="repo.updatedAt"></td>
-        <td class="govuk-table__cell" ng-bind="repo.pushedAt"></td>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Total Purchased licences</td>
+        <td class="govuk-table__cell" ng-bind=licence.total></td>
       </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Available licences</td>
+        <td class="govuk-table__cell" ng-bind=licence.available></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Used licences</td>
+        <td class="govuk-table__cell" ng-bind=licence.used></td>
+      </tr>
+
       </tbody>
     </table>
   </main>
@@ -168,7 +150,7 @@
   </div>
 </footer>
 
-<script src="javascript/govuk-frontend-4.3.0.min.js"></script>
+<script src="../javascript/govuk-frontend-4.3.0.min.js"></script>
 <script>
   window.GOVUKFrontend.initAll()
 
