@@ -28,13 +28,13 @@
   <script>
     var App = angular.module('App', ['ngAria']);
     App.controller('ReposController', function ($scope, $http) {
-      $http.get('https://raw.githubusercontent.com/michaelpearsonHO/ho-repo-scraper/gh-pages/repos.json')
+      $http.get('https://raw.githubusercontent.com/UKHomeOffice/ho-repo-scraper/gh-pages/repos.json')
               .then(function (res) {
                 $scope.repos = res.data
                 $scope.sortType = 'stargazersCount'
                 $scope.sortReverse = true
               })
-    })
+    });
   </script>
 </head>
 
@@ -91,6 +91,11 @@
           <li class="govuk-header__navigation-item">
             <a class="govuk-header__link" href="html/convergence.html">
               Convergence
+            </a>
+          </li>
+          <li class="govuk-header__navigation-item govuk-header__navigation-item--active">
+            <a class="govuk-header__link" href="html/enterprise.html">
+              Enterprise stats
             </a>
           </li>
         </ul>
