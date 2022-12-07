@@ -31,7 +31,12 @@
               .then(function (res) {
                 console.log(res)
                 $scope.licence = res.data.licence
-              })
+              });
+      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/dormantusers.json')
+              .then(function (res) {
+                console.log(res)
+                $scope.dormantusers = res.data.dormantusers
+              });
     });
   </script>
 </head>
@@ -124,9 +129,32 @@
         <td class="govuk-table__cell">Used licences</td>
         <td class="govuk-table__cell" ng-bind=licence.used></td>
       </tr>
+      </tbody>
+    </table>
+
+    <h1 class="govuk-heading-xl">Dormant Users</h1>
+    <table class="govuk-table" ng-if="dormantusers">
+      <thead class="govuk-table__head">
+      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">User Type</a></th>
+      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Total</a></th>
+      </thead>
+      <tbody class="govuk-table__body">
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Collaborators</td>
+        <td class="govuk-table__cell" ng-bind="dormantusers.collaborators"></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Outside Collaborators</td>
+        <td class="govuk-table__cell" ng-bind=dormantusers.outsidecollaborators></td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">Total Dormant Users</td>
+        <td class="govuk-table__cell" ng-bind=dormantusers.total></td>
+      </tr>
 
       </tbody>
     </table>
+
   </main>
 </div>
 
