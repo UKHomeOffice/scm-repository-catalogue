@@ -111,7 +111,11 @@
   <main class="govuk-main-wrapper " id="main-content" role="main" ng-controller="EnterpriseController">
     <h1 class="govuk-heading-xl">Enterprise</h1>
 
-    <h2>License usage</h2>
+    <h2 class="govuk-heading-l">Maturity</h2>
+    <p class="govuk-body">Coming soon...</p>
+
+    <h2 class="govuk-heading-l">License Usage</h2>
+    <p class="govuk-body">Last updated: <span ng-bind=licence.lastUpdatedAt /></p>
     <table class="govuk-table" ng-if="licence">
       <thead class="govuk-table__head">
       <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Licence Usage</a></th>
@@ -133,7 +137,9 @@
       </tbody>
     </table>
 
-    <h1 class="govuk-heading-xl">Dormant Users</h1>
+
+    <h2 class="govuk-heading-l">Dormant Users</h2>
+    <p class="govuk-body">Last updated: <span ng-bind=dormantusers.lastUpdatedAt /></p>
     <table class="govuk-table" ng-if="dormantusers">
       <thead class="govuk-table__head">
       <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">User Type</a></th>

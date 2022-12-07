@@ -1,6 +1,7 @@
 "use strict";
 
 import fs from "fs";
+import { generateLastUpdated } from './lastUpdatedAt.js'
 
 let csv = fs.readFileSync("source/dormantusers.csv")
 
@@ -90,7 +91,8 @@ const dormantResult = {};
 dormantResult.dormantusers = {
     collaborators: countCollaborator,
     outsidecollaborators: countOutsideCollaborator,
-    total: jsonParsed.length
+    total: jsonParsed.length,
+	...generateLastUpdated(),
 };
 
 console.log("writing results to file");

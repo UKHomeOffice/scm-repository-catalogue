@@ -1,10 +1,6 @@
-import {writeFileSync} from "fs";
-
-(() => {
-  const lastUpdatedAt = new Date().toLocaleString();
-  console.log("Updating lastUpdatedAt...")
-  writeFileSync("./public/lastUpdatedAt.json", JSON.stringify({
-    lastUpdatedAt,
-  }));
-  console.log("Done.")
-})();
+export const generateLastUpdated = () => {
+  const lastUpdatedAt = new Date().toLocaleDateString("en-GB");
+  return {
+    lastUpdatedAt
+  }
+};
