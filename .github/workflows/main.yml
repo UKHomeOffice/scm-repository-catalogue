@@ -22,7 +22,7 @@ jobs:
       env:
         GITHUB_ENTERPRISE_BILLING_TOKEN: ${{ secrets.ENTERPRISE_BILLING_TOKEN }}
         GITHUB_ENTERPRISE_NAME: ukhomeoffice
-    - run: node dormantusers.js
+    - run: node lastUpdatedAt.js
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: crazy-max/ghaction-github-pages@v3
