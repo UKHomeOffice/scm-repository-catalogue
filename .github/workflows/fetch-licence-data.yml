@@ -25,3 +25,5 @@ jobs:
       with:
         message: 'Add enterprise json file'
         add: './public/enterprise.json'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
