@@ -1,0 +1,32 @@
+name: Fetch Dormant Users Data
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - source/dormantusers.csv
+
+jobs:
+  run:
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: main
+        token: ${{ secrets.REPO_TOKEN }}
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvm'
+    - run: npm install
+    - run: node dormantusers.js
+    - uses: EndBug/add-and-commit@v9
+      with:
+        message: 'Fetch Dormant Users Data'
+        add: './public/enterprise.json'
+        committer_name: GitHub Actions
+        committer_email: 41898282+github-actions[bot]@users.noreply.github.com
