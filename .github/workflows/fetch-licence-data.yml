@@ -22,4 +22,4 @@ jobs:
     - uses: EndBug/add-and-commit@v9
       with:
         message: 'Add enterprise json file'
-        add: '../public/enterprise.json'
+        add: './public/enterprise.json'
