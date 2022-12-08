@@ -1,6 +1,12 @@
 {
   "dormantUsers": {
     "values": [
+      {
+        "collaborators": 57,
+        "outsidecollaborators": 122,
+        "total": 179,
+        "lastUpdatedAt": 1670522097944
+      }
     ]
   }
 }
