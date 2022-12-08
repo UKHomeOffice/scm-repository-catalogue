@@ -1,7 +1,7 @@
 "use strict";
 
 import {Octokit} from "octokit";
-import {writeFileSync} from "fs";
+import {writeFileSync, readFileSync} from "fs";
 import {generateLastUpdated} from "./lastUpdatedAt.js";
 
 
@@ -25,7 +25,15 @@ const result = {};
     };
 
     console.log("writing results to file");
-    writeFileSync("./public/enterprise.json", JSON.stringify(result));
+
+    const historicFile = readFileSync('public/enterprise.json');
+    const historicJson = JSON.parse(historicFile);
+
+    historicJson.licence.values.push(result.licence);
+
+    writeFileSync("./public/enterprise.json", JSON.stringify(historicJson, null, 2));
+
+
     console.log("done");
 })();
 
