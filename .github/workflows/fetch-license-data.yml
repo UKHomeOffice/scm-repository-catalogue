@@ -1,4 +1,4 @@
-name: Fetch Lincence Data
+name: Fetch License Data
 
 on: workflow_dispatch
 
