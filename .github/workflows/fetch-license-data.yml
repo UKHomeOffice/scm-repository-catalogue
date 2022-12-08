@@ -10,10 +10,9 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}
     runs-on: ubuntu-latest    
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         ref: main
-        token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/setup-node@v3
       with:
         node-version-file: '.nvm'
@@ -26,5 +25,3 @@ jobs:
       with:
         message: 'Add enterprise json file'
         add: './public/enterprise.json'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
