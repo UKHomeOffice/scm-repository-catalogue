@@ -1,4 +1,4 @@
-name: Publisher
+name: Fetch Lincence Data
 
 on: workflow_dispatch
 
@@ -20,6 +20,6 @@ jobs:
         GITHUB_ENTERPRISE_BILLING_TOKEN: ${{ secrets.ENTERPRISE_BILLING_TOKEN }}
         GITHUB_ENTERPRISE_NAME: ukhomeoffice
     - uses: EndBug/add-and-commit@v9
-        with:
-          message: 'Add enterprise json file'
-          add: '../public/enterprise.json'
+      with:
+        message: 'Add enterprise json file'
+        add: '../public/enterprise.json'
