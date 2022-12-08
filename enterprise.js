@@ -2,6 +2,7 @@
 
 import {Octokit} from "octokit";
 import {writeFileSync} from "fs";
+import {generateLastUpdated} from "./lastUpdatedAt.js";
 
 
 const result = {};
@@ -19,7 +20,8 @@ const result = {};
     result.licence = {
         used: total_seats_consumed,
         available: total_seats_purchased - total_seats_consumed,
-        total: total_seats_purchased
+        total: total_seats_purchased,
+        ...generateLastUpdated(),
     };
 
     console.log("writing results to file");
