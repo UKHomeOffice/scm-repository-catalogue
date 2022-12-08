@@ -1,12 +1,12 @@
 
-var dataVar = await fetch('https://ukhomeoffice.github.io/scm-repository-catalogue/dormantusers.json')
+var dataVar = await fetch('https://ukhomeoffice.github.io/scm-repository-catalogue/enterprise.json')
 .then((response) => response.json())
 .then((data) => {
-  return data.dormantUsers.values
+  return data.licence.values
 });
 
 new Chart(
-  document.getElementById('duCanvas'),
+  document.getElementById('lCanvas'),
   {
     type: 'line',
     options: {
@@ -27,17 +27,17 @@ new Chart(
       labels: dataVar.map(row => row.lastUpdatedAt),
       datasets: [
         {
-          label: 'Collaborators',
-          data: dataVar.map(row => row.collaborators),
+          label: 'Available',
+          data: dataVar.map(row => row.available),
           borderColor: '#FF6384',
         },
         {
-          label: 'Outside Collaborators',
-          data: dataVar.map(row => row.outsidecollaborators),
+          label: 'Used',
+          data: dataVar.map(row => row.used),
           borderColor: '#00FF00',
         },
         {
-          label: 'Total Collaborators',
+          label: 'Total',
           data: dataVar.map(row => row.total),
           borderColor: '#0000FF',
 
