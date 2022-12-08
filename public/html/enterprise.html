@@ -115,7 +115,7 @@
     <p class="govuk-body">Coming soon...</p>
 
     <h2 class="govuk-heading-l">License Usage</h2>
-    <p class="govuk-body">Last updated: <span ng-bind=licence.lastUpdatedAt /></p>
+    <p class="govuk-body">Last updated: <span>{{ licence.values[licence.values.length - 1].lastUpdatedAt | date : "dd/MM/yyyy" }}</span></p>
     <table class="govuk-table" ng-if="licence">
       <thead class="govuk-table__head">
       <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Licence Usage</a></th>
@@ -124,15 +124,15 @@
       <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Total Purchased licences</td>
-        <td class="govuk-table__cell" ng-bind=licence.total></td>
+        <td class="govuk-table__cell">{{ licence.values[licence.values.length - 1].total }}</td>
       </tr>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Available licences</td>
-        <td class="govuk-table__cell" ng-bind=licence.available></td>
+        <td class="govuk-table__cell">{{licence.values[licence.values.length - 1].available}}</td>
       </tr>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Used licences</td>
-        <td class="govuk-table__cell" ng-bind=licence.used></td>
+        <td class="govuk-table__cell">{{licence.values[licence.values.length - 1].used}}</td>
       </tr>
       </tbody>
     </table>
