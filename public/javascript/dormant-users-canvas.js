@@ -1,25 +1,51 @@
-import Chart from "chart.js";
 
 var dataVar = await fetch('../dormantusers.json')
 .then((response) => response.json())
 .then((data) => {
-    console.log(data)
-    return data.values
+  return data.dormantUsers.values
 });
 
-
-let chart = new Chart(
-    document.getElementById('duCanvas'),
-    {
-      type: 'line',
-      data: {
-        labels: dataVar.map(row => row.lastUpdatedAt),
-        datasets: [
-          {
-            label: 'Collabs',
-            data: dataVar.map(row => row.collaborators)
+new Chart(
+  document.getElementById('duCanvas'),
+  {
+    type: 'line',
+    options: {
+      scales: {
+        x: {
+          ticks: {
+            callback: value => 
+              `${new Date(dataVar[value].lastUpdatedAt).toLocaleDateString()}`
           }
-        ]
+        },
+        y: {
+          min: 0,
+        }
       }
+    },
+
+    data: {
+      labels: dataVar.map(row => row.lastUpdatedAt),
+      datasets: [
+        {
+          label: 'Collaborators',
+          data: dataVar.map(row => row.collaborators),
+          borderColor: '#FF6384',
+        },
+        {
+          label: 'Outside Collaborators',
+          data: dataVar.map(row => row.outsidecollaborators),
+          borderColor: '#00FF00',
+
+
+        },
+        {
+          label: 'Total Collaborators',
+          data: dataVar.map(row => row.total),
+          borderColor: '#0000FF',
+
+        },
+        
+      ]
     }
+  }
 );
