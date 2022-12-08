@@ -103,8 +103,5 @@ const historicJson = JSON.parse(historicFile);
 historicJson.dormantUsers.values.push(dormantResult.dormantusers);
 
 fs.writeFileSync("./public/dormantusers.json", JSON.stringify(historicJson, null, 2));
-fs.rename("source/dormantusers.csv","source/dormantusersold.csv", (err) => {
-if (err) throw err;
-    console.log('Rename complete!');
-});
+
 console.log("done");
