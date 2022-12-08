@@ -32,7 +32,7 @@
                 console.log(res)
                 $scope.licence = res.data.licence
               });
-      $http.get('http://localhost:63342/scm-repository-catalogue/public/dormantusers.json')
+      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/dormantusers.json')
               .then(function (res) {
                 console.log(res)
                 $scope.dormantusers = res.data.dormantUsers
