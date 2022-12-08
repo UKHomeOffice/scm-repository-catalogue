@@ -32,10 +32,10 @@
                 console.log(res)
                 $scope.licence = res.data.licence
               });
-      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/dormantusers.json')
+      $http.get('http://localhost:63342/scm-repository-catalogue/public/dormantusers.json')
               .then(function (res) {
                 console.log(res)
-                $scope.dormantusers = res.data.dormantusers
+                $scope.dormantusers = res.data.dormantUsers
               });
     });
   </script>
@@ -139,7 +139,7 @@
 
 
     <h2 class="govuk-heading-l">Dormant Users</h2>
-    <p class="govuk-body">Last updated: <span ng-bind=dormantusers.lastUpdatedAt /></p>
+    <p class="govuk-body">Last updated: <span>{{ dormantusers.values[dormantusers.values.length - 1].lastUpdatedAt | date : "dd/MM/yyyy" }}</span></p>
     <table class="govuk-table" ng-if="dormantusers">
       <thead class="govuk-table__head">
       <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">User Type</a></th>
@@ -148,15 +148,15 @@
       <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Collaborators</td>
-        <td class="govuk-table__cell" ng-bind="dormantusers.collaborators"></td>
+        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].collaborators }}</td>
       </tr>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Outside Collaborators</td>
-        <td class="govuk-table__cell" ng-bind=dormantusers.outsidecollaborators></td>
+        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].outsidecollaborators }}</td>
       </tr>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">Total Dormant Users</td>
-        <td class="govuk-table__cell" ng-bind=dormantusers.total></td>
+        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].total }}</td>
       </tr>
 
       </tbody>

@@ -1,5 +1,5 @@
 export const generateLastUpdated = () => {
-  const lastUpdatedAt = new Date().toLocaleDateString("en-GB");
+  const lastUpdatedAt = new Date().getTime();
   return {
     lastUpdatedAt
   }
