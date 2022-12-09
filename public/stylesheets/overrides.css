@@ -31,3 +31,18 @@
     background: #ff9800;
     color: #fff3e9;
 }
+
+.maturity-level-3 {
+    background: #eedd22;
+    color: #fff9e9;
+}
+
+.maturity-level-4 {
+    background: #1eb303;
+    color: #fff3e9;
+}
+
+.maturity-level-5 {
+    background: #137b01;
+    color: #fff3e9;
+}
