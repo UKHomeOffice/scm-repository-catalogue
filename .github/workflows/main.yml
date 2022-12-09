@@ -18,11 +18,6 @@ jobs:
     - run: node index.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: node enterprise.js
-      env:
-        GITHUB_ENTERPRISE_BILLING_TOKEN: ${{ secrets.ENTERPRISE_BILLING_TOKEN }}
-        GITHUB_ENTERPRISE_NAME: ukhomeoffice
-    - run: node lastUpdatedAt.js
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: crazy-max/ghaction-github-pages@v3
