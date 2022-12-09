@@ -12,10 +12,14 @@ new Chart(
     options: {
       scales: {
         x: {
-          ticks: {
-            callback: value => 
-              `${new Date(dataVar[value].lastUpdatedAt).toLocaleDateString()}`
-          }
+          // ticks: {
+          //   callback: value => 
+          //     `${new Date(dataVar[value].lastUpdatedAt).toLocaleDateString()}`
+          // },
+          type: 'time',
+          min: (new Date(new Date().getTime() - 12096e5)),
+          max: (new Date(new Date().getTime() + 8.64e7)),
+
         },
         y: {
           min: 0,
