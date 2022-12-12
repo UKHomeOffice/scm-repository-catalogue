@@ -1,0 +1,24 @@
+name: Test inactive users workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Analyze User Activity
+      id: analyze_user_activity
+      uses: peter-murray/inactive-users-action@v1
+      with:
+        token: ${{ secrets.ENTERPRISE_BILLING_TOKEN }}
+        organization: ukhomeoffice
+        activity_days: 90
+
+    - name: Save User Activity Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: reports
+        path: |
+          ${{ steps.analyze_user_activity.outputs.report_csv }}
