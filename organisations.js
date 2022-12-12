@@ -31,7 +31,7 @@ const result = {};
 
     console.log("writing results to file");
 
-    const historicFile = readFileSync('public/organisations.json');
+    const historicFile = readFileSync("./public/organisations.json");
     const historicJson = JSON.parse(historicFile);
 
     historicJson.organisationApps.values.push(result.organisationApps);
