@@ -25,6 +25,8 @@
   <![endif]-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" integrity="sha512-Lrd4lY1eAdzAhDC85I72/+oDee8Zut38nRh9fKQsssTHhm91CRwwOAwjPB0M7UtSlWryD1dHVTBbyLadXwUJDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min.js" integrity="sha512-6s/BWhljWxvmUrMUuWTBqXCWNvR/pN665yr80pB68s1KaqrDOVnqGMKi6WdzuzVNFhKyo2h43gPbUkVjH2Tgtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script type="module" src="../javascript/organisations-canvas.js"></script>
   <script>
     const App = angular.module('App', ['ngAria']);
@@ -38,7 +40,7 @@
                 }, new Set());
                 $scope.orgs = Array.from(distinctOrgs.values()).sort();
               });
-      $http.get('../organisations.json')
+      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/organisations.json')
         .then(function (res) {
           console.log(res)
           $scope.organisationApps = res.data.organisationApps

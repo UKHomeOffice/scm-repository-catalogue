@@ -1,5 +1,5 @@
 
-var dataVar = await fetch('../organisations.json')
+var dataVar = await fetch('https://ukhomeoffice.github.io/scm-repository-catalogue/organisations.json')
 .then((response) => response.json())
 .then((data) => {
   return data.organisationApps.values
