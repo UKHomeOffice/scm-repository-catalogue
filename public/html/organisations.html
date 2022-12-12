@@ -25,22 +25,19 @@
   <![endif]-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" integrity="sha512-Lrd4lY1eAdzAhDC85I72/+oDee8Zut38nRh9fKQsssTHhm91CRwwOAwjPB0M7UtSlWryD1dHVTBbyLadXwUJDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min.js" integrity="sha512-6s/BWhljWxvmUrMUuWTBqXCWNvR/pN665yr80pB68s1KaqrDOVnqGMKi6WdzuzVNFhKyo2h43gPbUkVjH2Tgtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <script type="module" src="../javascript/licence-canvas.js"></script>
-  <script type="module" src="../javascript/dormant-users-canvas.js"></script>
   <script>
-    var App = angular.module('App', ['ngAria']);
-    App.controller('EnterpriseController', function ($scope, $http) {
-      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/enterprise.json')
+    const App = angular.module('App', ['ngAria']);
+    App.controller('OrgController', function ($scope, $http) {
+      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json')
               .then(function (res) {
-                console.log(res)
-                $scope.licence = res.data.licence
-              });
-      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/dormantusers.json')
-              .then(function (res) {
-                console.log(res)
-                $scope.dormantusers = res.data.dormantUsers
+                $scope.repos = res.data;
+
+                const distinctOrgs = res.data.reduce((res, curr, _) => {
+                  return res.add(curr.owner);
+                }, new Set());
+                $scope.orgs = Array.from(distinctOrgs.values()).sort();
+
+
               });
     });
   </script>
@@ -117,124 +114,19 @@
 </header>
 
 <div class="govuk-width-container ">
-  <main class="govuk-main-wrapper " id="main-content" role="main" ng-controller="EnterpriseController">
-    <h1 class="govuk-heading-xl">Enterprise</h1>
+  <main class="govuk-main-wrapper " id="main-content" role="main" ng-controller="OrgController">
+    <h1 class="govuk-heading-xl">Organisations</h1>
 
-    <h2 class="govuk-heading-l">Maturity</h2>
-
-    <h3 class="govuk-heading-m">Current</h3>
-    <div class="maturity-stats-container">
-      <div class="maturity-stat maturity-level-1">
-        <div class="maturity-stat-value">
-        20%
-        </div>
-        <div class="maturity-stat-name">Enterprise Policies</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-1">
-        <div class="maturity-stat-value">
-          20%
-        </div>
-        <div class="maturity-stat-name">Minimise Organisations</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-1">
-        <div class="maturity-stat-value">
-          20%
-        </div>
-        <div class="maturity-stat-name">User-owned repos</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-2">
-        <div class="maturity-stat-value">
-          40%
-        </div>
-        <div class="maturity-stat-name">Licence management</div>
-      </div>
-    </div>
-
-    <h3 class="govuk-heading-m">Target</h3>
-    <div class="maturity-stats-container">
-      <div class="maturity-stat maturity-level-4">
-        <div class="maturity-stat-value">
-        80%
-        </div>
-        <div class="maturity-stat-name">Enterprise Policies</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-5">
-        <div class="maturity-stat-value">
-          100%
-        </div>
-        <div class="maturity-stat-name">Minimise Organisations</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-3">
-        <div class="maturity-stat-value">
-          60%
-        </div>
-        <div class="maturity-stat-name">User-owned repos</div>
-      </div>
-
-      <div class="maturity-stat maturity-level-5">
-        <div class="maturity-stat-value">
-          100%
-        </div>
-        <div class="maturity-stat-name">Licence management</div>
-      </div>
-    </div>
-
-    <h2 class="govuk-heading-l">License Usage</h2>
-    <div style="width: 800px;"><canvas id="lCanvas"></canvas></div>
-    <table class="govuk-table" ng-if="licence">
+    <table class="govuk-table" ng-if="repos">
       <thead class="govuk-table__head">
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Licence Usage</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Number of licences</a></th>
+      <th scope="col" class="govuk-table__header">Organisation name</th>
       </thead>
       <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Total Purchased licences</td>
-        <td class="govuk-table__cell">{{ licence.values[licence.values.length - 1].total }}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Available licences</td>
-        <td class="govuk-table__cell">{{licence.values[licence.values.length - 1].available}}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Used licences</td>
-        <td class="govuk-table__cell">{{licence.values[licence.values.length - 1].used}}</td>
+      <tr class="govuk-table__row" ng-repeat="org in orgs">
+        <td class="govuk-table__cell"><a href="https://github.com/{{ org }}">{{ org }}</a></td>
       </tr>
       </tbody>
     </table>
-
-    <p class="govuk-body">Table Last Updated: <span>{{ licence.values[licence.values.length - 1].lastUpdatedAt | date : "dd/MM/yyyy" }}</span></p>
-
-    <h2 class="govuk-heading-l">Dormant Users</h2>
-    <div style="width: 800px;"><canvas id="duCanvas"></canvas></div>
-    <table class="govuk-table" ng-if="dormantusers">
-      <thead class="govuk-table__head">
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">User Type</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Total</a></th>
-      </thead>
-      <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Collaborators</td>
-        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].collaborators }}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Outside Collaborators</td>
-        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].outsidecollaborators }}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">Total Dormant Users</td>
-        <td class="govuk-table__cell">{{ dormantusers.values[dormantusers.values.length - 1].total }}</td>
-      </tr>
-      </tbody>
-    </table>
-
-    <p class="govuk-body">Table Last Updated: <span>{{ dormantusers.values[dormantusers.values.length - 1].lastUpdatedAt | date : "dd/MM/yyyy" }}</span></p>
-
-
   </main>
 </div>
 
