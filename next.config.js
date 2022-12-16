@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/scm-repository-catalogue'
+  basePath: '/scm-repository-catalogue',
+  assetPrefix: '/scm-repository-catalogue/',
 }
 
 module.exports = nextConfig
