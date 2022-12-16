@@ -26,12 +26,12 @@ const result = {};
 
     console.log("writing results to file");
 
-    const historicFile = readFileSync('../public/enterprise.json');
+    const historicFile = readFileSync('./public/enterprise.json');
     const historicJson = JSON.parse(historicFile);
 
     historicJson.licence.values.push(result.licence);
 
-    writeFileSync("../public/enterprise.json", JSON.stringify(historicJson, null, 2));
+    writeFileSync("./public/enterprise.json", JSON.stringify(historicJson, null, 2));
 
 
     console.log("done");

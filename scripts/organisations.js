@@ -31,12 +31,12 @@ const result = {};
 
     console.log("writing results to file");
 
-    const historicFile = readFileSync("../public/organisations.json");
+    const historicFile = readFileSync("./public/organisations.json");
     const historicJson = JSON.parse(historicFile);
 
     historicJson.organisationApps.values.push(result.organisationApps);
 
-    writeFileSync("../public/organisations.json", JSON.stringify(historicJson, null, 2));
+    writeFileSync("./public/organisations.json", JSON.stringify(historicJson, null, 2));
 
 
     console.log("done");

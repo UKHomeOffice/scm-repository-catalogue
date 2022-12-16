@@ -75,7 +75,7 @@ const allReposForAllHomeOfficeOrgs = await Promise.mapSeries(
 const formattedResults = allReposForAllHomeOfficeOrgs.flat(2).map(formatResult);
 
 console.log("writing results to file");
-writeFileSync("../public/repos.json", JSON.stringify(formattedResults));
+writeFileSync("./public/repos.json", JSON.stringify(formattedResults));
 console.log("done");
 
 })()
