@@ -97,7 +97,7 @@ dormantResult.dormantusers = {
 
 console.log("writing results to file");
 
-const historicFile = fs.readFileSync('public/dormantusers.json');
+const historicFile = fs.readFileSync('./public/dormantusers.json');
 const historicJson = JSON.parse(historicFile);
 
 historicJson.dormantUsers.values.push(dormantResult.dormantusers);

@@ -15,13 +15,14 @@ jobs:
       with:
         node-version-file: '.nvm'
     - run: npm install
-    - run: node index.js
+    - run: node scripts/index.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm run build-static
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: crazy-max/ghaction-github-pages@v3
       with:
-        build_dir: public
+        build_dir: out
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
