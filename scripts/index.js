@@ -5,6 +5,8 @@ const Octokat = require("octokat");
 const Promise = require("bluebird");
 const { writeFileSync } = require("fs");
 
+(async () => {
+
 const octo = new Octokat({
   token: process.env.GITHUB_TOKEN,
 });
@@ -76,3 +78,4 @@ console.log("writing results to file");
 writeFileSync("../public/repos.json", JSON.stringify(formattedResults));
 console.log("done");
 
+})()
