@@ -18,7 +18,7 @@ jobs:
     - run: node scripts/index.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm run build-static
+    - run: npm run build-static && touch ./out/.nojekyll
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: crazy-max/ghaction-github-pages@v3
