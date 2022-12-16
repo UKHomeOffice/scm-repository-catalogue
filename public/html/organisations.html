@@ -27,7 +27,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min.js" integrity="sha512-6s/BWhljWxvmUrMUuWTBqXCWNvR/pN665yr80pB68s1KaqrDOVnqGMKi6WdzuzVNFhKyo2h43gPbUkVjH2Tgtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-  <script type="module" src="../javascript/organisations-canvas.js"></script>
+  <script src='https://cdn.jsdelivr.net/lodash/4.17.2/lodash.min.js'></script>
+  <script type="module" src="../javascript/organisations-canvas.js" defer></script>
   <script>
     const App = angular.module('App', ['ngAria']);
     App.controller('OrgController', function ($scope, $http) {
@@ -40,10 +41,9 @@
                 }, new Set());
                 $scope.orgs = Array.from(distinctOrgs.values()).sort();
               });
-      $http.get('https://ukhomeoffice.github.io/scm-repository-catalogue/organisations.json')
+      $http.get('../organisations.json')
         .then(function (res) {
-          console.log(res)
-          $scope.organisationApps = res.data.organisationApps
+          $scope.orgData = _.groupBy(res.data.organisationApps.values, o =>  o.organisation);
         });
 
     });
@@ -135,38 +135,16 @@
     </table>
 
     <h2 class="govuk-heading-l">Github Installed Apps</h2>
-    <div style="width: 800px;"><canvas id="orgCanvas"></canvas></div>
-    <br />
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'owner'; sortReverse = !sortReverse">Organisation</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Total Installed Apps</a></th>
-      </thead>
-      <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell">{{ organisationApps.values[organisationApps.values.length - 1].organisation }}</td>
-        <td class="govuk-table__cell">{{organisationApps.values[organisationApps.values.length - 1].total}}</td>
-      </tr>
-      </tbody>
-    </table>
 
-    <h2 class="govuk-heading-l">Apps</h2>
-    <table class="govuk-table">
-      <thead class="govuk-table__head">
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = '#'; sortReverse = !sortReverse">#</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'Apps'; sortReverse = !sortReverse">Apps</a></th>
-      <th scope="col" class="govuk-table__header"><a ng-click="sortType = 'Installed At'; sortReverse = !sortReverse">Installed At</a></th>
-      </thead>
-      <tbody class="govuk-table__body" ng-repeat="value in organisationApps.values | limitTo: -1">
-      <tr class="govuk-table__row" ng-repeat="installedApp in value.installedApps">
-        <td class="govuk-table__cell">{{$index + 1}}</td>
-        <td class="govuk-table__cell">{{installedApp.app}}</td>
-        <td class="govuk-table__cell">{{installedApp.installedAt | date : "dd/MM/yyyy" }}</td>
-      </tr>
-      </tbody>
-    </table>
 
-    <p class="govuk-body">Table Last Updated: <span>{{ organisationApps.values[organisationApps.values.length - 1].lastUpdatedAt | date : "dd/MM/yyyy" }}</span></p>
+    <div ng-repeat="org in orgData">
+        <div style="width: 49%;float: left;" ng-if="$index % 2 == 0;">
+          <canvas id="orgCanvas_{{org[0].organisation}}" ></canvas>
+        </div>
+        <div style="margin-left: 50%; " ng-if="$index % 2 == 1;">
+          <canvas id="orgCanvas_{{org[0].organisation}}" ></canvas>
+        </div>
+    </div>
 
   </main>
 </div>
