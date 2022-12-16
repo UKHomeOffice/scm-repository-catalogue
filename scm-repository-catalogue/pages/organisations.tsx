@@ -1,4 +1,40 @@
 import organisationJson from "../public/organisations.json";
+import { groupBy, last } from "lodash";
+
+import "chartjs-adapter-moment";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const COLORS: {
+  [key: string]: string;
+} = {
+  greenkeeper: "#4dc9f6",
+  slack: "#f67019",
+  wip: "#f53794",
+  "travis-ci": "#537bc4",
+  "signed-commit-checker-beta": "#acc236",
+  "everyone-app": "#166a8f",
+  "railway-app": "#58595b",
+  render: "#8549ba",
+  "scm-reporting-app": "blue",
+};
 
 interface OrgApps {
   values: {
@@ -20,27 +56,49 @@ export async function getStaticProps() {
   }, new Set());
 
   const orgs = Array.from(distinctOrgs.values()).sort();
-
   const { organisationApps } = organisationJson;
+  const orgData = groupBy(organisationApps.values, (o) => o.organisation);
 
   return {
     props: {
       repos,
       organisationApps,
       orgs,
+      orgData,
     },
   };
 }
+
+interface OrganisationPageProps {
+  repos: any;
+  organisationApps: OrgApps;
+  orgs: any;
+  orgData: any;
+}
+
+type Props = {
+  children?: React.ReactNode;
+};
+
+const GridLayout: React.FC<Props> = ({ children }) => (
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      maxWidth: "430px",
+      gap: "2em",
+    }}
+  >
+    {children}
+  </div>
+);
 
 export default function Organisations({
   repos,
   organisationApps,
   orgs,
-}: {
-  repos: any;
-  organisationApps: OrgApps;
-  orgs: any;
-}) {
+  orgData,
+}: OrganisationPageProps) {
   return (
     <>
       <div className="govuk-width-container ">
@@ -61,77 +119,78 @@ export default function Organisations({
             </thead>
             <tbody className="govuk-table__body">
               {orgs.map((org: string) => (
-                <tr key={org} className="govuk-table__row">
+                <tr
+                  key={org}
+                  className="govuk-table__row"
+                  ng-repeat="org in orgs"
+                >
                   <td className="govuk-table__cell">
-                    <a href={`https://github.com/${org}`}>{org}</a>
+                    <a href="https://github.com/{{ org }}">{org}</a>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <h2 className="govuk-heading-l">Github Installed Apps</h2>
-          <div style={{ width: "800px" }}>
-            <canvas id="orgCanvas"></canvas>
-          </div>
-          <br />
-          <table className="govuk-table">
-            <thead className="govuk-table__head">
-              <th scope="col" className="govuk-table__header">
-                <a>Organisation</a>
-              </th>
-              <th scope="col" className="govuk-table__header">
-                <a>Total Installed Apps</a>
-              </th>
-            </thead>
-            <tbody className="govuk-table__body">
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">
-                  {
-                    organisationApps.values[organisationApps.values.length - 1]
-                      .organisation
-                  }
-                </td>
-                <td className="govuk-table__cell">
-                  {
-                    organisationApps.values[organisationApps.values.length - 1]
-                      .total
-                  }
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <h2 className="govuk-heading-l">Apps</h2>
-          <table className="govuk-table">
-            <thead className="govuk-table__head">
-              <th scope="col" className="govuk-table__header">
-                <a>#</a>
-              </th>
-              <th scope="col" className="govuk-table__header">
-                <a>Apps</a>
-              </th>
-              <th scope="col" className="govuk-table__header">
-                <a>Installed At</a>
-              </th>
-            </thead>
 
-            {/*<tbody className="govuk-table__body" ng-repeat="value in organisationApps.values | limitTo: -1">*/}
-            {/*<tr className="govuk-table__row" ng-repeat="installedApp in value.installedApps">*/}
-            {/*  <td className="govuk-table__cell">{{$index + 1}}</td>*/}
-            {/*  <td className="govuk-table__cell">{{installedApp.app}}</td>*/}
-            {/*  <td className="govuk-table__cell">{{installedApp.installedAt | date : "dd/MM/yyyy" }}</td>*/}
-            {/*</tr>*/}
-            {/*</tbody>*/}
-          </table>
-          <p className="govuk-body">
-            Table Last Updated:{" "}
-            <span>
-              {new Date(
-                organisationApps.values[
-                  organisationApps.values.length - 1
-                ].lastUpdatedAt
-              ).toLocaleDateString()}
-            </span>
-          </p>
+          <h2 className="govuk-heading-l">Github Installed Apps</h2>
+
+          <GridLayout>
+            {Object.keys(orgData).map((org: string) => {
+              console.log(JSON.stringify(org));
+
+              // @ts-ignore
+              const appsData = groupBy(last(orgData[org]).installedApps, (yr) =>
+                new Date(yr.installedAt).getUTCFullYear()
+              );
+
+              console.log({ orgData });
+              return (
+                <Bar
+                  style={{
+                    border: "1px solid #ccc",
+                  }}
+                  id={org}
+                  key={org}
+                  options={{
+                    plugins: {
+                      // aspectRatio: 1,
+                      legend: {
+                        display: true,
+                        position: "bottom",
+                      },
+                      title: {
+                        display: true,
+                        text: orgData[org][0].organisation,
+                      },
+                    },
+                    responsive: true,
+                    scales: {
+                      x: {
+                        stacked: true,
+                      },
+                      y: {
+                        stacked: true,
+                        ticks: {
+                          precision: 0,
+                        },
+                      },
+                    },
+                  }}
+                  data={{
+                    datasets: Object.keys(appsData).flatMap((year) => {
+                      return appsData[year].map((app, idx) => ({
+                        label: app.app,
+                        data: {
+                          [year]: 1,
+                        },
+                        backgroundColor: COLORS[app.app],
+                      }));
+                    }),
+                  }}
+                />
+              );
+            })}
+          </GridLayout>
         </main>
       </div>
     </>
