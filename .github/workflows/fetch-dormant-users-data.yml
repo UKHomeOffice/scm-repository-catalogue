@@ -23,7 +23,7 @@ jobs:
       with:
         node-version-file: '.nvm'
     - run: npm install
-    - run: node dormantusers.js
+    - run: node scripts/dormantusers.js
     - uses: EndBug/add-and-commit@v9
       with:
         message: 'Fetch Dormant Users Data'

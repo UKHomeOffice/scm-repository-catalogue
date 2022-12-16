@@ -20,7 +20,7 @@ jobs:
       with:
         node-version-file: '.nvm'
     - run: npm install
-    - run: node enterprise.js
+    - run: node scripts/enterprise.js
       env:
         GITHUB_ENTERPRISE_BILLING_TOKEN: ${{ secrets.ENTERPRISE_BILLING_TOKEN }}
         GITHUB_ENTERPRISE_NAME: ukhomeoffice

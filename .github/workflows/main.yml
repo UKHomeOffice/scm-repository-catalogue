@@ -15,7 +15,7 @@ jobs:
       with:
         node-version-file: '.nvm'
     - run: npm install
-    - run: node index.js
+    - run: node scripts/index.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: npm run build-static
