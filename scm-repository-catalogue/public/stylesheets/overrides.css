@@ -1,0 +1,48 @@
+.maturity-stats-container {
+    display: flex;
+    font-family: 'GDS Transport', arial, sans-serif;
+    gap: 1em;
+    margin-bottom: 2em;
+}
+
+.maturity-stat {
+    border: 1px solid;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    width: 200px;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.maturity-stat-value {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.maturity-level-1 {
+    background: #f44336;
+    color: #ffefed;
+}
+
+.maturity-level-2 {
+    background: #ff9800;
+    color: #fff3e9;
+}
+
+.maturity-level-3 {
+    background: #eedd22;
+    color: #fff9e9;
+}
+
+.maturity-level-4 {
+    background: #1eb303;
+    color: #fff3e9;
+}
+
+.maturity-level-5 {
+    background: #137b01;
+    color: #fff3e9;
+}

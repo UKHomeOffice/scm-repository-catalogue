@@ -1,0 +1,36 @@
+{
+  "licence": {
+    "values": [
+      {
+        "used": 452,
+        "available": 18,
+        "total": 470,
+        "lastUpdatedAt": 1670510783066
+      },
+      {
+        "used": 451,
+        "available": 19,
+        "total": 470,
+        "lastUpdatedAt": 1670569325645
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670655722404
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670742117481
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670828552824
+      }
+    ]
+  }
+}
