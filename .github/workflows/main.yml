@@ -18,10 +18,11 @@ jobs:
     - run: node index.js
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - run: npm run build-static
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
       uses: crazy-max/ghaction-github-pages@v3
       with:
-        build_dir: public
+        build_dir: out
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
