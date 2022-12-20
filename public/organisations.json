@@ -3,46 +3,135 @@
     "values": [
       {
         "organisation": "UKHomeOffice",
+        "total": 9,
         "installedApps": [
           {
             "app": "greenkeeper",
-            "installedAt": "2016-11-24T16:38:12.000Z"
+            "installedAt": "2016-11-24T16:38:12.000+00:00"
           },
           {
             "app": "signed-commit-checker-beta",
-            "installedAt": "2016-12-21T22:24:59.000Z"
+            "installedAt": "2016-12-21T22:24:59.000+00:00"
           },
           {
             "app": "slack",
-            "installedAt": "2018-11-08T11:10:52.000Z"
+            "installedAt": "2018-11-08T11:10:52.000+00:00"
           },
           {
             "app": "wip",
-            "installedAt": "2019-10-07T13:45:27.000Z"
+            "installedAt": "2019-10-07T14:45:27.000+01:00"
           },
           {
             "app": "travis-ci",
-            "installedAt": "2021-06-23T12:49:17.000Z"
+            "installedAt": "2021-06-23T13:49:17.000+01:00"
           },
           {
             "app": "everyone-app",
-            "installedAt": "2021-11-05T10:08:52.000Z"
+            "installedAt": "2021-11-05T10:08:52.000+00:00"
           },
           {
             "app": "railway-app",
-            "installedAt": "2022-11-15T11:29:14.000Z"
+            "installedAt": "2022-11-15T11:29:14.000+00:00"
           },
           {
             "app": "render",
-            "installedAt": "2022-11-24T13:14:04.000Z"
+            "installedAt": "2022-11-24T13:14:04.000+00:00"
           },
           {
             "app": "scm-reporting-app",
-            "installedAt": "2022-11-24T14:54:41.000Z"
+            "installedAt": "2022-11-24T14:54:41.000+00:00"
           }
         ],
-        "total": 9,
-        "lastUpdatedAt": 1670624298525
+        "lastUpdatedAt": 1671576721295
+      },
+      {
+        "organisation": "UKHomeOffice-attic",
+        "total": 1,
+        "installedApps": [
+          {
+            "app": "everyone-app",
+            "installedAt": "2021-11-02T13:09:45.000+00:00"
+          }
+        ],
+        "lastUpdatedAt": 1671576721513
+      },
+      {
+        "organisation": "UKHomeOfficeForms",
+        "total": 4,
+        "installedApps": [
+          {
+            "app": "everyone-app",
+            "installedAt": "2021-11-05T10:10:34.000+00:00"
+          },
+          {
+            "app": "hoforms-user-activity-app",
+            "installedAt": "2022-01-31T14:58:16.000+00:00"
+          },
+          {
+            "app": "slack",
+            "installedAt": "2022-06-30T14:05:35.000+01:00"
+          },
+          {
+            "app": "axolo-co",
+            "installedAt": "2022-07-04T20:10:05.000+01:00"
+          }
+        ],
+        "lastUpdatedAt": 1671576721725
+      },
+      {
+        "organisation": "UKHomeOffice-test",
+        "total": 1,
+        "installedApps": [
+          {
+            "app": "everyone-app",
+            "installedAt": "2021-11-05T10:10:27.000+00:00"
+          }
+        ],
+        "lastUpdatedAt": 1671576721960
+      },
+      {
+        "organisation": "HMPO",
+        "total": 2,
+        "installedApps": [
+          {
+            "app": "everyone-app",
+            "installedAt": "2021-11-05T15:51:30.000+00:00"
+          },
+          {
+            "app": "hmpo-user-activity-app",
+            "installedAt": "2022-01-31T16:06:29.000+00:00"
+          }
+        ],
+        "lastUpdatedAt": 1671576722176
+      },
+      {
+        "organisation": "HO-CTO",
+        "total": 1,
+        "installedApps": [
+          {
+            "app": "slack",
+            "installedAt": "2022-09-22T09:27:37.000+01:00"
+          }
+        ],
+        "lastUpdatedAt": 1671576722414
+      },
+      {
+        "organisation": "HomeOffice-Automation-SSO",
+        "total": 0,
+        "installedApps": [],
+        "lastUpdatedAt": 1671576722631
+      },
+      {
+        "organisation": "technical-docs",
+        "total": 0,
+        "installedApps": [],
+        "lastUpdatedAt": 1671576722822
+      },
+      {
+        "organisation": "Enterprise-functional-tests",
+        "total": 0,
+        "installedApps": [],
+        "lastUpdatedAt": 1671576723035
       }
     ]
   }

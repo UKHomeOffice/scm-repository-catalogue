@@ -25,15 +25,18 @@ ChartJS.register(
 const COLORS: {
   [key: string]: string;
 } = {
-  greenkeeper: "#4dc9f6",
-  slack: "#f67019",
-  wip: "#f53794",
-  "travis-ci": "#537bc4",
-  "signed-commit-checker-beta": "#acc236",
-  "everyone-app": "#166a8f",
-  "railway-app": "#58595b",
-  render: "#8549ba",
-  "scm-reporting-app": "blue",
+"greenkeeper": "#b5abd1",
+"signed-commit-checker-beta": "#ad559f",
+"slack": "#901f87",
+"wip": "#decb01",
+"travis-ci": "#9634dd",
+"everyone-app": "#bfe28f",
+"railway-app": "#719606",
+"render": "#96414b",
+"scm-reporting-app": "#5224dc",
+"hoforms-user-activity-app": "#2036c9",
+"axolo-co": "#dec8cc",
+"hmpo-user-activity-app": "#5c0151",
 };
 
 interface OrgApps {
@@ -136,14 +139,11 @@ export default function Organisations({
 
           <GridLayout>
             {Object.keys(orgData).map((org: string) => {
-              console.log(JSON.stringify(org));
 
               // @ts-ignore
               const appsData = groupBy(last(orgData[org]).installedApps, (yr) =>
                 new Date(yr.installedAt).getUTCFullYear()
               );
-
-              console.log({ orgData });
               return (
                 <Bar
                   style={{
@@ -153,7 +153,6 @@ export default function Organisations({
                   key={org}
                   options={{
                     plugins: {
-                      // aspectRatio: 1,
                       legend: {
                         display: true,
                         position: "bottom",
