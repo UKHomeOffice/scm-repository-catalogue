@@ -42,11 +42,9 @@ async function getDistinctAppList(appData){
 }
 
 async function getAppColourList(distinctApps){
-    let appsColour = [];
-    let app = {};
+    let appsColour = {};
     distinctApps.forEach (function(value) {
-      app = {[value]: stringToColour(value)}
-      appsColour.push(app);
+      appsColour[value] = stringToColour(value)
     });
     return appsColour;
 }

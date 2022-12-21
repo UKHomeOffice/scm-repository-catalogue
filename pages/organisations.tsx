@@ -1,4 +1,5 @@
 import organisationJson from "../public/organisations.json";
+import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last } from "lodash";
 
 import "chartjs-adapter-moment";
@@ -24,20 +25,7 @@ ChartJS.register(
 
 const COLORS: {
   [key: string]: string;
-} = {
-"greenkeeper": "#b5abd1",
-"signed-commit-checker-beta": "#ad559f",
-"slack": "#901f87",
-"wip": "#decb01",
-"travis-ci": "#9634dd",
-"everyone-app": "#bfe28f",
-"railway-app": "#719606",
-"render": "#96414b",
-"scm-reporting-app": "#5224dc",
-"hoforms-user-activity-app": "#2036c9",
-"axolo-co": "#dec8cc",
-"hmpo-user-activity-app": "#5c0151",
-};
+} = appColoursJson;
 
 interface OrgApps {
   values: {
