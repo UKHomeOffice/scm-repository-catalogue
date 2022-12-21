@@ -1,0 +1,110 @@
+{
+  "organisationPackages": {
+    "values": [
+      {
+        "organisation": "UKHomeOffice",
+        "total": 4,
+        "packages": [
+          {
+            "name": "cop-react-components",
+            "packageType": "npm",
+            "visibility": "public",
+            "createdAt": "2021-11-09T09:29:42Z"
+          },
+          {
+            "name": "uk.gov.digital.ho.hocs.hocs-ukvi-complaint-schema",
+            "packageType": "maven",
+            "visibility": "public",
+            "createdAt": "2022-06-01T12:06:56Z"
+          },
+          {
+            "name": "uk.gov.digital.ho.hocs.hocs-migration-schema",
+            "packageType": "maven",
+            "visibility": "public",
+            "createdAt": "2022-07-29T12:59:10Z"
+          },
+          {
+            "name": "github-licensing-bot",
+            "packageType": "container",
+            "visibility": "public",
+            "createdAt": "2022-12-05T15:52:50Z"
+          }
+        ],
+        "lastUpdatedAt": 1671634348773
+      },
+      {
+        "organisation": "UKHomeOffice-attic",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634350407
+      },
+      {
+        "organisation": "UKHomeOfficeForms",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634351997
+      },
+      {
+        "organisation": "UKHomeOffice-test",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634353503
+      },
+      {
+        "organisation": "HMPO",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634354917
+      },
+      {
+        "organisation": "HO-CTO",
+        "total": 4,
+        "packages": [
+          {
+            "name": "sre-monitoring-as-code",
+            "packageType": "container",
+            "visibility": "public",
+            "createdAt": "2022-07-27T10:12:13Z"
+          },
+          {
+            "name": "sre-promtool",
+            "packageType": "container",
+            "visibility": "public",
+            "createdAt": "2022-08-30T15:56:13Z"
+          },
+          {
+            "name": "sre-fmt-lint",
+            "packageType": "container",
+            "visibility": "public",
+            "createdAt": "2022-09-28T13:42:50Z"
+          },
+          {
+            "name": "sre-spellchecker",
+            "packageType": "container",
+            "visibility": "public",
+            "createdAt": "2022-10-24T09:13:22Z"
+          }
+        ],
+        "lastUpdatedAt": 1671634356386
+      },
+      {
+        "organisation": "HomeOffice-Automation-SSO",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634357837
+      },
+      {
+        "organisation": "technical-docs",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634359431
+      },
+      {
+        "organisation": "Enterprise-functional-tests",
+        "total": 0,
+        "packages": [],
+        "lastUpdatedAt": 1671634361946
+      }
+    ]
+  }
+}
