@@ -116,7 +116,7 @@ export default function Organisations({
                   ng-repeat="org in orgs"
                 >
                   <td className="govuk-table__cell">
-                    <a href="https://github.com/{{ org }}">{org}</a>
+                     <a href={"https://github.com/" + org}>{org}</a>
                   </td>
                 </tr>
               ))}
