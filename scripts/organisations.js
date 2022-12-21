@@ -31,6 +31,25 @@ async function getAppsList(orgName) {
     return data;
 }
 
+async function getPackagesList(orgName) {
+    const octokit = new Octokit({
+        auth: process.env.GITHUB_ORG_TOKEN,
+    });
+    const packageTypes = ["npm", "maven", "rubygems", "docker", "nuget", "container"];
+    let packages = [];
+    for(let pk of packageTypes){
+          const {
+                data
+            } = await octokit.request(`GET /orgs/{org}/packages?package_type=${pk}`, {
+                  org: orgName
+                });
+                packages.push(data);
+    }
+    packages = packages.flat();
+    console.log(packages);
+    return packages;
+}
+
 async function getDistinctAppList(appData){
     let appList = new Set();
     for(let apps of appData){
@@ -89,7 +108,9 @@ async function getAppsForOrg() {
 
 (async () => {
     const appData = await getAppsForOrg();
-    const distinctApps = await getDistinctAppList(appData);
+    const packagesList = await getPackagesList("ukhomeoffice");
+
+/*    const distinctApps = await getDistinctAppList(appData);
     const appsColour = await getAppColourList(distinctApps);
 
     console.log("writing results to file");
@@ -98,5 +119,5 @@ async function getAppsForOrg() {
     historicJson.organisationApps.values = appData;
     writeFileSync("./public/organisations.json", JSON.stringify(historicJson, null, 2));
     writeFileSync("./public/apps-colour.json",JSON.stringify(appsColour, null, 2));
-    console.log("done");
+    console.log("done");*/
 })();
