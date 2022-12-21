@@ -1,4 +1,5 @@
 import organisationJson from "../public/organisations.json";
+import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last } from "lodash";
 
 import "chartjs-adapter-moment";
@@ -24,17 +25,7 @@ ChartJS.register(
 
 const COLORS: {
   [key: string]: string;
-} = {
-  greenkeeper: "#4dc9f6",
-  slack: "#f67019",
-  wip: "#f53794",
-  "travis-ci": "#537bc4",
-  "signed-commit-checker-beta": "#acc236",
-  "everyone-app": "#166a8f",
-  "railway-app": "#58595b",
-  render: "#8549ba",
-  "scm-reporting-app": "blue",
-};
+} = appColoursJson;
 
 interface OrgApps {
   values: {
@@ -125,7 +116,7 @@ export default function Organisations({
                   ng-repeat="org in orgs"
                 >
                   <td className="govuk-table__cell">
-                    <a href="https://github.com/{{ org }}">{org}</a>
+                     <a href={"https://github.com/" + org}>{org}</a>
                   </td>
                 </tr>
               ))}
@@ -136,14 +127,11 @@ export default function Organisations({
 
           <GridLayout>
             {Object.keys(orgData).map((org: string) => {
-              console.log(JSON.stringify(org));
 
               // @ts-ignore
               const appsData = groupBy(last(orgData[org]).installedApps, (yr) =>
                 new Date(yr.installedAt).getUTCFullYear()
               );
-
-              console.log({ orgData });
               return (
                 <Bar
                   style={{
@@ -153,7 +141,6 @@ export default function Organisations({
                   key={org}
                   options={{
                     plugins: {
-                      // aspectRatio: 1,
                       legend: {
                         display: true,
                         position: "bottom",
