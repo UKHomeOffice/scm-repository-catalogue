@@ -11,14 +11,6 @@ const {
     generateLastUpdated
 } = require("./lastUpdatedAt.js");
 
-const {
-    groupBy, last
-} = require("lodash");
-
-const {
-    organisationJson
-} = require("../public/organisations.json");
-
 async function getOrganisationList() {
     const octokit = new Octokit({
         auth: process.env.GITHUB_ORG_TOKEN,
