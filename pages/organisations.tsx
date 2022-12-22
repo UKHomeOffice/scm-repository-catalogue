@@ -2,6 +2,7 @@ import organisationJson from "../public/organisations.json";
 import packagesJson from "../public/organisations-packages.json";
 import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last } from "lodash";
+import Image from 'next/image';
 
 import "chartjs-adapter-moment";
 import {
@@ -133,7 +134,13 @@ export default function Organisations({
                   </td>
 
                   <td className="govuk-table__cell">
-                    {PACKAGE_TYPES.map(pType => (<p key={pType}>{`${pType} packages:  ${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `}</p>))}
+                    {PACKAGE_TYPES.map(pType => (
+                    <div key="pType">
+                        {<Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30}/>
+                        }
+                        {<p> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"}`} </p> }
+                    </div>
+                    ))}
                   </td>
                 </tr>
               ))}
