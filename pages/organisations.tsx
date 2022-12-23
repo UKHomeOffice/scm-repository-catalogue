@@ -124,17 +124,17 @@ export default function Organisations({
               </tr>
             </thead>
 
-            <tbody class="govuk-table__body">
+            <tbody className="govuk-table__body">
               {orgs.map((org: string) => (
               <tr
                 key={org}
                 className="govuk-table__row" >
 
-                <th scope="row" class="govuk-table__header">
+                <th scope="row" className="govuk-table__header">
                   <a href={"https://github.com/" + org}>{org}</a>
                 </th>
 
-                <td class="govuk-table__cell ">
+                <td className="govuk-table__cell ">
         {
         PACKAGE_TYPES.map(pType => (
         <div style={{ float:'left' }} key={pType}>
