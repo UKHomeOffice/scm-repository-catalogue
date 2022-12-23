@@ -1,6 +1,8 @@
 import organisationJson from "../public/organisations.json";
+import packagesJson from "../public/organisations-packages.json";
 import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last } from "lodash";
+import Image from 'next/image';
 
 import "chartjs-adapter-moment";
 import {
@@ -27,6 +29,8 @@ const COLORS: {
   [key: string]: string;
 } = appColoursJson;
 
+const PACKAGE_TYPES = ["npm", "maven", "rubygems", "docker", "nuget", "container"];
+
 interface OrgApps {
   values: {
     organisation: string;
@@ -48,7 +52,14 @@ export async function getStaticProps() {
 
   const orgs = Array.from(distinctOrgs.values()).sort();
   const { organisationApps } = organisationJson;
-  const orgData = groupBy(organisationApps.values, (o) => o.organisation);
+  let orgData = groupBy(organisationApps.values, (o) => o.organisation);
+
+  const orgType = groupBy(packagesJson["organisationPackages"]["values"], (o) => o.organisation);
+
+  for (let org of orgs) {
+    // @ts-ignore
+    orgData[org][0]["packages"] = groupBy(orgType[org][0]["packages"], (p) => p.packageType);
+  }
 
   return {
     props: {
@@ -56,6 +67,7 @@ export async function getStaticProps() {
       organisationApps,
       orgs,
       orgData,
+      PACKAGE_TYPES,
     },
   };
 }
@@ -100,29 +112,43 @@ export default function Organisations({
           ng-controller="OrgController"
         >
           <h1 className="govuk-heading-xl">Organisations</h1>
-          <table className="govuk-table" ng-if="repos">
+          <table className="govuk-table">
             <thead className="govuk-table__head">
               <tr>
                 <th scope="col" className="govuk-table__header">
                   Organisation name
                 </th>
+                <th scope="col" className="govuk-table__header govuk-!-width-one-half">
+                  Packages
+                </th>
               </tr>
             </thead>
+
             <tbody className="govuk-table__body">
               {orgs.map((org: string) => (
                 <tr
                   key={org}
-                  className="govuk-table__row"
-                  ng-repeat="org in orgs"
-                >
-                  <td className="govuk-table__cell">
-                     <a href={"https://github.com/" + org}>{org}</a>
+                  className="govuk-table__row" >
+
+                  <th scope="row" className="govuk-table__header">
+                    <a href={"https://github.com/" + org}>{org}</a>
+                  </th>
+
+                  <td className="govuk-table__cell ">
+                    {
+                      PACKAGE_TYPES.map(pType => (
+                        <div style={{ float: 'left' }} key={pType}>
+                          <Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30} />
+                          <p style={{ float: 'right', margin: '0', padding: '0px 15px' }}> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `} </p>
+                        </div>
+                      ))
+                    }
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table>
 
+          </table>
           <h2 className="govuk-heading-l">Github Installed Apps</h2>
 
           <GridLayout>
