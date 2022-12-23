@@ -118,35 +118,37 @@ export default function Organisations({
                 <th scope="col" className="govuk-table__header">
                   Organisation name
                 </th>
-                <th scope="col" className="govuk-table__header">
+                <th scope="col" className="govuk-table__header govuk-!-width-one-half">
                   Packages
                 </th>
               </tr>
             </thead>
-            <tbody className="govuk-table__body">
+
+            <tbody class="govuk-table__body">
               {orgs.map((org: string) => (
-                <tr
-                  key={org}
-                  className="govuk-table__row"
-                >
-                  <td className="govuk-table__cell">
-                     <a href={"https://github.com/" + org}>{org}</a>
-                  </td>
+              <tr
+                key={org}
+                className="govuk-table__row" >
 
-                  <td className="govuk-table__cell">
-                    {PACKAGE_TYPES.map(pType => (
-                    <div key="pType">
-                        {<Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30}/>
-                        }
-                        {<p> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"}`} </p> }
-                    </div>
-                    ))}
-                  </td>
-                </tr>
-              ))}
+                <th scope="row" class="govuk-table__header">
+                  <a href={"https://github.com/" + org}>{org}</a>
+                </th>
+
+                <td class="govuk-table__cell ">
+        {
+        PACKAGE_TYPES.map(pType => (
+        <div style={{ float:'left' }} key={pType}>
+          <Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30} />
+        <p style={{ float:'right', margin:'0', padding:'0px 15px'}}> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `} </p>
+        </div>
+      ))
+      }
+                </td>
+              </tr>
+        ))}
             </tbody>
-          </table>
 
+</table>
           <h2 className="govuk-heading-l">Github Installed Apps</h2>
 
           <GridLayout>
