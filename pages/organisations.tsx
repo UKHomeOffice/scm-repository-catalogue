@@ -54,7 +54,7 @@ export async function getStaticProps() {
   const { organisationApps } = organisationJson;
   let orgData = groupBy(organisationApps.values, (o) => o.organisation);
 
- const orgType = groupBy(packagesJson["organisationPackages"]["values"], (o) => o.organisation);
+  const orgType = groupBy(packagesJson["organisationPackages"]["values"], (o) => o.organisation);
 
   for (let org of orgs) {
     // @ts-ignore
@@ -126,29 +126,29 @@ export default function Organisations({
 
             <tbody className="govuk-table__body">
               {orgs.map((org: string) => (
-              <tr
-                key={org}
-                className="govuk-table__row" >
+                <tr
+                  key={org}
+                  className="govuk-table__row" >
 
-                <th scope="row" className="govuk-table__header">
-                  <a href={"https://github.com/" + org}>{org}</a>
-                </th>
+                  <th scope="row" className="govuk-table__header">
+                    <a href={"https://github.com/" + org}>{org}</a>
+                  </th>
 
-                <td className="govuk-table__cell ">
-        {
-        PACKAGE_TYPES.map(pType => (
-        <div style={{ float:'left' }} key={pType}>
-          <Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30} />
-        <p style={{ float:'right', margin:'0', padding:'0px 15px'}}> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `} </p>
-        </div>
-      ))
-      }
-                </td>
-              </tr>
-        ))}
+                  <td className="govuk-table__cell ">
+                    {
+                      PACKAGE_TYPES.map(pType => (
+                        <div style={{ float: 'left' }} key={pType}>
+                          <Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30} />
+                          <p style={{ float: 'right', margin: '0', padding: '0px 15px' }}> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `} </p>
+                        </div>
+                      ))
+                    }
+                  </td>
+                </tr>
+              ))}
             </tbody>
 
-</table>
+          </table>
           <h2 className="govuk-heading-l">Github Installed Apps</h2>
 
           <GridLayout>
