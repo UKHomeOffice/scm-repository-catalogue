@@ -17,7 +17,7 @@
     "chartjs-adapter-moment": "^1.0.1",
     "date-fns": "^2.29.3",
     "eslint": "8.29.0",
-    "eslint-config-next": "13.0.7",
+    "eslint-config-next": "13.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.0.7",
