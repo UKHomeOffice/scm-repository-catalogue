@@ -2,16 +2,7 @@ import enterpriseJson from "../public/enterprise.json";
 import dormantUsersJson from "../public/dormantusers.json";
 import "chartjs-adapter-moment";
 import { enGB } from "date-fns/locale";
-import {
-  Chart as ChartJS,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, TimeScale, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -41,28 +32,46 @@ interface DormantUsers {
     lastUpdatedAt: number;
   }[];
 }
+
 export async function getStaticProps() {
+
+  // TODO: No america
   const { licence } = enterpriseJson;
+  const licenceLastUpdate = new Date(licence.values[licence.values.length - 1].lastUpdatedAt).toLocaleDateString();
   const { dormantUsers } = dormantUsersJson;
+  const dormantUsersLastUpdate = new Date(dormantUsers.values[dormantUsers.values.length - 1].lastUpdatedAt).toLocaleDateString();
+
   return {
     props: {
       licence,
+      licenceLastUpdate,
       dormantUsers,
-    },
+      dormantUsersLastUpdate
+    }
   };
 }
+
 export default function Enterprise({
-  licence,
-  dormantUsers,
-}: {
+                                     licence,
+                                     licenceLastUpdate,
+                                     dormantUsers,
+                                     dormantUsersLastUpdate
+                                   }: {
   licence: Licence;
   dormantUsers: DormantUsers;
+  licenceLastUpdate: any;
+  dormantUsersLastUpdate: any;
 }) {
   return (
     <>
       <div className="govuk-width-container ">
         <main className="govuk-main-wrapper " id="main-content" role="main">
           <h1 className="govuk-heading-xl">Enterprise</h1>
+
+          <h3 className="govuk-heading-m">Admin Contact</h3>
+          <div>
+            <p className="govuk-body">tooling@homeoffice.gov.uk</p>
+          </div>
 
           <h2 className="govuk-heading-l">Maturity</h2>
 
@@ -123,14 +132,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB,
-                      },
-                    },
+                        locale: enGB
+                      }
+                    }
                   },
                   y: {
-                    min: 0,
-                  },
-                },
+                    min: 0
+                  }
+                }
               }}
               data={{
                 labels: licence.values.map((row) => row.lastUpdatedAt),
@@ -138,60 +147,58 @@ export default function Enterprise({
                   {
                     label: "Available",
                     data: licence.values.map((row) => row.available),
-                    borderColor: "#FF6384",
+                    borderColor: "#FF6384"
                   },
                   {
                     label: "Used",
                     data: licence.values.map((row) => row.used),
-                    borderColor: "#00FF00",
+                    borderColor: "#00FF00"
                   },
                   {
                     label: "Total",
                     data: licence.values.map((row) => row.total),
-                    borderColor: "#0000FF",
-                  },
-                ],
+                    borderColor: "#0000FF"
+                  }
+                ]
               }}
             />
           </div>
+
           <table className="govuk-table">
             <thead className="govuk-table__head">
-              <tr>
-                <th scope="col" className="govuk-table__header">
-                  <a>Licence Usage</a>
-                </th>
-                <th scope="col" className="govuk-table__header">
-                  <a>Number of licences</a>
-                </th>
-              </tr>
+            <tr>
+              <th scope="col" className="govuk-table__header">
+                <a>Licence Usage</a>
+              </th>
+              <th scope="col" className="govuk-table__header">
+                <a>Number of licences</a>
+              </th>
+            </tr>
             </thead>
             <tbody className="govuk-table__body">
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Total Purchased licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].total}
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Available licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].available}
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Used licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].used}
-                </td>
-              </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Total Purchased licences</td>
+              <td className="govuk-table__cell">
+                {licence.values[licence.values.length - 1].total}
+              </td>
+            </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Available licences</td>
+              <td className="govuk-table__cell">
+                {licence.values[licence.values.length - 1].available}
+              </td>
+            </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Used licences</td>
+              <td className="govuk-table__cell">
+                {licence.values[licence.values.length - 1].used}
+              </td>
+            </tr>
             </tbody>
           </table>
 
           <p className="govuk-body">
-            Table Last Updated:{" "}
-            <span>
-              { new Date(licence.values[licence.values.length - 1].lastUpdatedAt).toLocaleDateString() }
-            </span>
+            {`Table Last Updated: ${licenceLastUpdate}`}
           </p>
 
           <h2 className="govuk-heading-l">Dormant Users</h2>
@@ -206,14 +213,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB,
-                      },
-                    },
+                        locale: enGB
+                      }
+                    }
                   },
                   y: {
-                    min: 0,
-                  },
-                },
+                    min: 0
+                  }
+                }
               }}
               data={{
                 labels: dormantUsers.values.map((row) => row.lastUpdatedAt),
@@ -221,71 +228,65 @@ export default function Enterprise({
                   {
                     label: "Collaborators",
                     data: dormantUsers.values.map((row) => row.collaborators),
-                    borderColor: "#FF6384",
+                    borderColor: "#FF6384"
                   },
                   {
                     label: "Outside Collaborators",
                     data: dormantUsers.values.map(
                       (row) => row.outsidecollaborators
                     ),
-                    borderColor: "#00FF00",
+                    borderColor: "#00FF00"
                   },
                   {
                     label: "Total Collaborators",
                     data: dormantUsers.values.map((row) => row.total),
-                    borderColor: "#0000FF",
-                  },
-                ],
+                    borderColor: "#0000FF"
+                  }
+                ]
               }}
             />
           </div>
           <table className="govuk-table">
             <thead className="govuk-table__head">
-              <tr>
-                <th scope="col" className="govuk-table__header">
-                  <a>User Type</a>
-                </th>
-                <th scope="col" className="govuk-table__header">
-                  <a>Total</a>
-                </th>
-              </tr>
+            <tr>
+              <th scope="col" className="govuk-table__header">
+                <a>User Type</a>
+              </th>
+              <th scope="col" className="govuk-table__header">
+                <a>Total</a>
+              </th>
+            </tr>
             </thead>
             <tbody className="govuk-table__body">
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Collaborators</td>
-                <td className="govuk-table__cell">
-                  {
-                    dormantUsers.values[dormantUsers.values.length - 1]
-                      .collaborators
-                  }
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Outside Collaborators</td>
-                <td className="govuk-table__cell">
-                  {
-                    dormantUsers.values[dormantUsers.values.length - 1]
-                      .outsidecollaborators
-                  }
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Total Dormant Users</td>
-                <td className="govuk-table__cell">
-                  {dormantUsers.values[dormantUsers.values.length - 1].total}
-                </td>
-              </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Collaborators</td>
+              <td className="govuk-table__cell">
+                {
+                  dormantUsers.values[dormantUsers.values.length - 1]
+                    .collaborators
+                }
+              </td>
+            </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Outside Collaborators</td>
+              <td className="govuk-table__cell">
+                {
+                  dormantUsers.values[dormantUsers.values.length - 1]
+                    .outsidecollaborators
+                }
+              </td>
+            </tr>
+            <tr className="govuk-table__row">
+              <td className="govuk-table__cell">Total Dormant Users</td>
+              <td className="govuk-table__cell">
+                {dormantUsers.values[dormantUsers.values.length - 1].total}
+              </td>
+            </tr>
             </tbody>
           </table>
 
           <p className="govuk-body">
-            Table Last Updated:{" "}
-            <span>
-              {
-                new Date(dormantUsers.values[dormantUsers.values.length - 1]
-                  .lastUpdatedAt).toLocaleDateString()
-              }
-            </span>
+            {`Table Last Updated: ${dormantUsersLastUpdate} `}
           </p>
         </main>
       </div>
