@@ -1,5 +1,6 @@
 import organisationJson from "../public/organisations.json";
 import packagesJson from "../public/organisations-packages.json";
+import orgOwnersJson from "../public/org-owners.json";
 import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last } from "lodash";
 import Image from 'next/image';
@@ -61,12 +62,16 @@ export async function getStaticProps() {
     orgData[org][0]["packages"] = groupBy(orgType[org][0]["packages"], (p) => p.packageType);
   }
 
+  // @ts-ignore
+  const orgOwners = orgOwnersJson;
+
   return {
     props: {
       repos,
       organisationApps,
       orgs,
       orgData,
+      orgOwners,
       PACKAGE_TYPES,
     },
   };
@@ -77,6 +82,7 @@ interface OrganisationPageProps {
   organisationApps: OrgApps;
   orgs: any;
   orgData: any;
+  orgOwners: any;
 }
 
 type Props = {
@@ -101,6 +107,7 @@ export default function Organisations({
   organisationApps,
   orgs,
   orgData,
+  orgOwners,
 }: OrganisationPageProps) {
   return (
     <>
@@ -120,6 +127,9 @@ export default function Organisations({
                 </th>
                 <th scope="col" className="govuk-table__header govuk-!-width-one-half">
                   Packages
+                </th>
+                <th scope="col" className="govuk-table__header govuk-!-width-one-half">
+                 Org Owner
                 </th>
               </tr>
             </thead>
@@ -143,6 +153,9 @@ export default function Organisations({
                         </div>
                       ))
                     }
+                  </td>
+                  <td className="govuk-table__cell ">
+                     {orgOwners[org]}
                   </td>
                 </tr>
               ))}

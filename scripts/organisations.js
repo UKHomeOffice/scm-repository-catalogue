@@ -133,14 +133,29 @@ async function getAppsForOrg() {
   return appData;
 }
 
+async function getOrgOwners() {
+  let orgOwners = {};
+  orgOwners["HMPO"] = "HMPO@digial.homeoffice.gov.uk";
+  orgOwners["HO-CTO"] = "HO-CTO@digial.homeoffice.gov.uk";
+  orgOwners["HomeOffice-Automation-SSO"] = "HomeOffice-Automation-SSO@digial.homeoffice.gov.uk";
+  orgOwners["UKHomeOffice"] = "UKHomeOffice@digial.homeoffice.gov.uk";
+
+  orgOwners["UKHomeOffice-attic"] = "UKHomeOffice-attic@digial.homeoffice.gov.uk";
+  orgOwners["UKHomeOffice-test"] = "UKHomeOffice-test@digial.homeoffice.gov.uk";
+  orgOwners["UKHomeOfficeForms"] = "UKHomeOfficeFormsO@digial.homeoffice.gov.uk";
+  orgOwners["technical-docs"] = "technical-docs@digial.homeoffice.gov.uk";
+  return orgOwners;
+}
+
 (async () => {
   const appData = await getAppsForOrg();
   const packagesList = await getPackegesList();
 
-  console.log(packagesList);
-
   const distinctApps = await getDistinctAppList(appData);
+  const orgOwners = await getOrgOwners();
   const appsColour = await getAppColourList(distinctApps);
+
+  console.log((orgOwners));
 
   console.log("writing results to file");
   let historicFile;
@@ -153,6 +168,7 @@ async function getAppsForOrg() {
   historicJson = JSON.parse(historicFile);
   historicJson.organisationPackages.values = packagesList;
   writeFileSync("./public/organisations-packages.json", JSON.stringify(historicJson, null, 2));
+  writeFileSync("./public/org-owners.json", JSON.stringify(orgOwners, null, 2));
   writeFileSync("./public/apps-colour.json", JSON.stringify(appsColour, null, 2));
   console.log("done");
 })();
