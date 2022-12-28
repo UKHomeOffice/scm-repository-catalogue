@@ -111,7 +111,41 @@ export default function Organisations({
           role="main"
           ng-controller="OrgController"
         >
-          <h1 className="govuk-heading-xl">Organisations</h1>
+          <h2 className="govuk-heading-l">Maturity</h2>
+
+          <h3 className="govuk-heading-m">Current</h3>
+          <div className="maturity-stats-container">
+            <div className="maturity-stat maturity-level-2">
+              <div className="maturity-stat-value">46%</div>
+              <div className="maturity-stat-name">Multiple Owners</div>
+            </div>
+            <div className="maturity-stat maturity-level-2">
+              <div className="maturity-stat-value">37%</div>
+              <div className="maturity-stat-name">Use Teams</div>
+            </div>
+            <div className="maturity-stat maturity-level-4">
+              <div className="maturity-stat-value">70%</div>
+              <div className="maturity-stat-name">Open source packages</div>
+          </div>
+          </div>
+
+          <h3 className="govuk-heading-m">Current</h3>
+          <div className="maturity-stats-container">
+            <div className="maturity-stat maturity-level-5">
+              <div className="maturity-stat-value">80%</div>
+              <div className="maturity-stat-name">Multiple Owners</div>
+            </div>
+            <div className="maturity-stat maturity-level-5">
+              <div className="maturity-stat-value">86%</div>
+              <div className="maturity-stat-name">Use Teams</div>
+            </div>
+            <div className="maturity-stat maturity-level-5">
+              <div className="maturity-stat-value">100%</div>
+              <div className="maturity-stat-name">Open source packages</div>
+            </div>
+          </div>
+
+          <h1 className="govuk-heading-l">Organisations</h1>
           <table className="govuk-table">
             <thead className="govuk-table__head">
               <tr>
