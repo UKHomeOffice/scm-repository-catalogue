@@ -1,4 +1,6 @@
 import Head from "next/head";
+import {useEffect, useState} from "react";
+import {filter} from "lodash";
 
 export async function getStaticProps() {
   const res = await fetch(
@@ -13,6 +15,15 @@ export async function getStaticProps() {
 }
 
 export default function Index({ repos }: { repos: any }) {
+  const [filtered, setFiltered] = useState({search: ""});
+  const [repositories, setRepositories] = useState(repos);
+
+  useEffect(() => {
+    const newList = filter(repos, function(r: any) {return r.name.includes(filtered.search)});
+    setRepositories(newList);
+
+  }, [filtered, repos]);
+
   return (
     <>
       <Head>
@@ -60,16 +71,21 @@ export default function Index({ repos }: { repos: any }) {
 
       <h1 className={"govuk-heading-xl"}>GitHub Repository Catalogue</h1>
 
-      {!repos && (
+      {!repositories && (
         <p className={"govuk-body"}>
           LOADING... Page can take a while to render
         </p>
       )}
-      {repos && (
+      {repositories && (
         <p className={"govuk-body"}>
-          Currently showing {repos.length} public repositories
+          Currently showing {repositories.length} public repositories
         </p>
       )}
+      <div className="govuk-form-group">
+        <label className="govuk-label">Search for repository name:</label>
+        <input className="govuk-input govuk-!-width-one-third" onChange={e => { // @ts-ignore
+          setFiltered({search: e.target.value})}}/>
+      </div>
 
       <table className={"govuk-table"}>
         <thead className={"govuk-table__head"}>
@@ -113,7 +129,7 @@ export default function Index({ repos }: { repos: any }) {
           </tr>
         </thead>
         <tbody className={"govuk-table__body"}>
-          {repos.map((repo: any) => (
+          {repositories.map((repo: any) => (
             <tr key={repo.url} className={"govuk-table__row"}>
               <td className={"govuk-table__cell"}>
                 <a href={`https://github.com/${repo.owner}`}>{repo.owner}</a>
