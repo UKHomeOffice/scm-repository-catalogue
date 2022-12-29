@@ -19,7 +19,7 @@ export default function Index({ repos }: { repos: any }) {
   const [repositories, setRepositories] = useState(repos);
 
   useEffect(() => {
-    const newList = filter(repos, function(r: any) {return r.name.includes(filtered.search)});
+    const newList = filter(repos, function(r: any) {return r.name.toLowerCase().includes(filtered.search.toLowerCase())});
     setRepositories(newList);
 
   }, [filtered, repos]);
