@@ -1,8 +1,8 @@
 "use strict";
 
-import {Octokit} from "octokit";
-import {writeFileSync, readFileSync} from "fs";
-import {generateLastUpdated} from "./lastUpdatedAt.js";
+const {Octokit} = require("octokit");
+const {writeFileSync, readFileSync} = require("fs");
+const {generateLastUpdated} = require("./lastUpdatedAt.js");
 
 
 const result = {};

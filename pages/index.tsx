@@ -1,5 +1,6 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {get, sortBy} from "lodash";
 import { filter } from "lodash";
 
 export async function getStaticProps() {
@@ -16,6 +17,7 @@ export async function getStaticProps() {
 
 export default function Index({ repos }: { repos: any }) {
   const [filtered, setFiltered] = useState({ search: "" });
+  const [sorted, setSorted] = useState({ field: 'owner', ascending: true});
   const [repositories, setRepositories] = useState(repos);
 
   useEffect(() => {
@@ -24,10 +26,19 @@ export default function Index({ repos }: { repos: any }) {
         || r.description?.toLowerCase().includes(filtered.search.toLowerCase())
         || r.language?.toLowerCase().includes(filtered.search.toLowerCase())
         || r.owner.toLowerCase().includes((filtered.search.toLowerCase()));
-    });
-    setRepositories(newList);
+    })
 
-  }, [filtered, repos]);
+    setRepositories(newList);
+  }, [filtered]);
+
+  useEffect(() => {
+    const newList = sortBy(repositories, r => get(r, sorted.field));
+    if (!sorted.ascending) {
+      newList.reverse();
+    }
+
+    setRepositories(newList);
+  }, [sorted, repositories]);
 
   return (
     <>
@@ -39,7 +50,7 @@ export default function Index({ repos }: { repos: any }) {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <meta name="theme-color" content="#0b0c0c" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="icon" href="/favicon.ico" />
 
         <link
@@ -83,7 +94,7 @@ export default function Index({ repos }: { repos: any }) {
       )}
       {repositories && (
         <p className={"govuk-body"}>
-          Currently showing {repositories.length} public repositories
+          Currently showing {repositories.length} repositories
         </p>
       )}
       <div className="govuk-form-group">
@@ -96,41 +107,41 @@ export default function Index({ repos }: { repos: any }) {
       <table className={"govuk-table"}>
         <thead className={"govuk-table__head"}>
         <tr>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Owner</a>
+          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'owner', ascending: !sorted.ascending})}>
+            <a>Owner</a>{ sorted.field === 'owner' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Name</a>
+          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'name', ascending: !sorted.ascending})}>
+            <a>Name</a>{ sorted.field === 'name' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Description</a>
+          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'description', ascending: !sorted.ascending})}>
+            <a>Description</a>{ sorted.field === 'description' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Visibility</a>
+          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'visibility', ascending: !sorted.ascending})}>
+            <a>Visibility</a>{ sorted.field === 'visibility' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>License</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'license.name', ascending: !sorted.ascending})}>
+            <a>License</a>{ sorted.field === 'license.name' && (sorted.ascending ? "￪" : "￬")}
           </th>
           <th scope="col" className={"govuk-table__header"}>
             <a>Archived</a>
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Language</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'language', ascending: !sorted.ascending})}>
+            <a>Language</a>{ sorted.field === 'language' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Stars</a>
+          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'stargazersCount', ascending: !sorted.ascending})}>
+            <a>Stars</a>{ sorted.field === 'stargazersCount' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Issues</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'openIssuesCount', ascending: !sorted.ascending})}>
+            <a>Issues</a>{ sorted.field === 'openIssuesCount' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Forks</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'forksCount', ascending: !sorted.ascending})}>
+            <a>Forks</a>{ sorted.field === 'forksCount' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Updated</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'updatedAt', ascending: !sorted.ascending})}>
+            <a>Updated</a>{ sorted.field === 'updatedAt' && (sorted.ascending ? "￪" : "￬")}
           </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Pushed</a>
+          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'pushedAt', ascending: !sorted.ascending})}>
+            <a>Pushed</a>{ sorted.field === 'pushedAt' && (sorted.ascending ? "￪" : "￬")}
           </th>
         </tr>
         </thead>
