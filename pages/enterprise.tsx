@@ -2,6 +2,8 @@ import enterpriseJson from "../public/enterprise.json";
 import dormantUsersJson from "../public/dormantusers.json";
 import "chartjs-adapter-moment";
 import { enGB } from "date-fns/locale";
+import { last } from "lodash";
+
 import {
   Chart as ChartJS,
   TimeScale,
@@ -43,9 +45,11 @@ interface DormantUsers {
 }
 export async function getStaticProps() {
   const { licence } = enterpriseJson;
-  const licenceLastUpdate = new Date(licence.values[licence.values.length - 1].lastUpdatedAt).toLocaleDateString("en-GB");
+  // @ts-ignore
+  const licenceLastUpdate = new Date(last(licence.values).lastUpdatedAt).toLocaleDateString("en-GB");
   const { dormantUsers } = dormantUsersJson;
-  const dormantUsersLastUpdate = new Date(dormantUsers.values[dormantUsers.values.length - 1].lastUpdatedAt).toLocaleDateString("en-GB");
+  // @ts-ignore
+  const dormantUsersLastUpdate = new Date(last(dormantUsers.values).lastUpdatedAt).toLocaleDateString("en-GB");
 
   return {
     props: {
