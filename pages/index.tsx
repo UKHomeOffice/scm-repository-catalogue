@@ -26,10 +26,10 @@ export default function Index({ repos }: { repos: any }) {
         || r.description?.toLowerCase().includes(filtered.search.toLowerCase())
         || r.language?.toLowerCase().includes(filtered.search.toLowerCase())
         || r.owner.toLowerCase().includes((filtered.search.toLowerCase()));
-    });
-    setRepositories(newList);
+    })
 
-  }, [filtered, repos]);
+    setRepositories(newList);
+  }, [filtered]);
 
   useEffect(() => {
     const newList = sortBy(repositories, r => get(r, sorted.field));
@@ -38,7 +38,7 @@ export default function Index({ repos }: { repos: any }) {
     }
 
     setRepositories(newList);
-  }, [sorted]);
+  }, [sorted, repositories]);
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function Index({ repos }: { repos: any }) {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <meta name="theme-color" content="#0b0c0c" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <link rel="icon" href="/favicon.ico" />
 
         <link
