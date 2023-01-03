@@ -43,20 +43,29 @@ interface DormantUsers {
 }
 export async function getStaticProps() {
   const { licence } = enterpriseJson;
+  const licenceLastUpdate = new Date(licence.values[licence.values.length - 1].lastUpdatedAt).toLocaleDateString("en-GB");
   const { dormantUsers } = dormantUsersJson;
+  const dormantUsersLastUpdate = new Date(dormantUsers.values[dormantUsers.values.length - 1].lastUpdatedAt).toLocaleDateString("en-GB");
+
   return {
     props: {
       licence,
+      licenceLastUpdate,
       dormantUsers,
+      dormantUsersLastUpdate
     },
   };
 }
 export default function Enterprise({
   licence,
+  licenceLastUpdate,
   dormantUsers,
+  dormantUsersLastUpdate,
 }: {
   licence: Licence;
   dormantUsers: DormantUsers;
+  licenceLastUpdate: any;
+  dormantUsersLastUpdate: any;
 }) {
   return (
     <>
@@ -188,10 +197,8 @@ export default function Enterprise({
           </table>
 
           <p className="govuk-body">
-            Table Last Updated:{" "}
-            <span>
-              { new Date(licence.values[licence.values.length - 1].lastUpdatedAt).toLocaleDateString() }
-            </span>
+            {`Table Last Updated: ${licenceLastUpdate}`}
+
           </p>
 
           <h2 className="govuk-heading-l">Dormant Users</h2>
@@ -279,13 +286,8 @@ export default function Enterprise({
           </table>
 
           <p className="govuk-body">
-            Table Last Updated:{" "}
-            <span>
-              {
-                new Date(dormantUsers.values[dormantUsers.values.length - 1]
-                  .lastUpdatedAt).toLocaleDateString()
-              }
-            </span>
+            {`Table Last Updated: ${dormantUsersLastUpdate}`}
+
           </p>
         </main>
       </div>
