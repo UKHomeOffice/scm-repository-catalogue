@@ -1,0 +1,42 @@
+.card {
+    min-width: 30%;
+    border: 1px solid #d3d3d3;
+    border-radius: 0.4em;
+    padding: 1em;
+    background-color: #ffffff;
+    color: #041244;
+
+    font-size: 16px;
+    font-family: "GDS Transport", "arial" ,sans-serif;
+    word-wrap: break-word;
+}
+
+.card h2 {
+    font-size: 18px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.labels {
+    display: flex;
+}
+
+.labels > div {
+    background: #ececec;
+    border-radius: 0.8em;
+    margin-right: 0.2em;
+    padding: 0.25em 0.5em;
+    text-align: center;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+}

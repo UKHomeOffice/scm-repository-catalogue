@@ -2,6 +2,7 @@ import Head from "next/head";
 import {useEffect, useState} from "react";
 import {get, sortBy} from "lodash";
 import { filter } from "lodash";
+import Card from "../components/Card";
 
 export async function getStaticProps() {
   const res = await fetch(
@@ -14,6 +15,21 @@ export async function getStaticProps() {
     }
   };
 }
+
+
+type Props = {
+  children?: React.ReactNode;
+};
+
+const GridLayout: React.FC<Props> = ({ children }) => <div style={{
+  display: 'grid',
+  gridTemplateColumns: "1fr 1fr 1fr",
+  gap: "1em"
+}}>
+  {children}
+</div>
+
+
 
 export default function Index({ repos }: { repos: any }) {
   const [filtered, setFiltered] = useState({ search: "" });
@@ -104,82 +120,88 @@ export default function Index({ repos }: { repos: any }) {
         }} />
       </div>
 
-      <table className={"govuk-table"}>
-        <thead className={"govuk-table__head"}>
-        <tr>
-          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'owner', ascending: !sorted.ascending})}>
-            <a>Owner</a>{ sorted.field === 'owner' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'name', ascending: !sorted.ascending})}>
-            <a>Name</a>{ sorted.field === 'name' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'description', ascending: !sorted.ascending})}>
-            <a>Description</a>{ sorted.field === 'description' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'visibility', ascending: !sorted.ascending})}>
-            <a>Visibility</a>{ sorted.field === 'visibility' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'license.name', ascending: !sorted.ascending})}>
-            <a>License</a>{ sorted.field === 'license.name' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}>
-            <a>Archived</a>
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'language', ascending: !sorted.ascending})}>
-            <a>Language</a>{ sorted.field === 'language' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'stargazersCount', ascending: !sorted.ascending})}>
-            <a>Stars</a>{ sorted.field === 'stargazersCount' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'openIssuesCount', ascending: !sorted.ascending})}>
-            <a>Issues</a>{ sorted.field === 'openIssuesCount' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'forksCount', ascending: !sorted.ascending})}>
-            <a>Forks</a>{ sorted.field === 'forksCount' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'updatedAt', ascending: !sorted.ascending})}>
-            <a>Updated</a>{ sorted.field === 'updatedAt' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-          <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'pushedAt', ascending: !sorted.ascending})}>
-            <a>Pushed</a>{ sorted.field === 'pushedAt' && (sorted.ascending ? "￪" : "￬")}
-          </th>
-        </tr>
-        </thead>
-        <tbody className={"govuk-table__body"}>
-        {repositories.map((repo: any) => (
-          <tr key={repo.url} className={"govuk-table__row"}>
-            <td className={"govuk-table__cell"}>
-              <a href={`https://github.com/${repo.owner}`}>{repo.owner}</a>
-            </td>
-            <td className={"govuk-table__cell"}>
-              <a href={`${repo.url}`}>{repo.name}</a>
-            </td>
-            <td className={"govuk-table__cell"}>{repo.description}</td>
-            <td className={"govuk-table__cell"}>{repo.visibility}</td>
-            <td className={"govuk-table__cell"}>
-              {repo.license && repo.license.name !== "Other" && (
-                <a href={`${repo.license.url}`}>{repo.license.name}</a>
-              )}
-              {repo.license && repo.license.name === "Other" && (
-                <a href={`${repo.url}}/blob/master/LICENSE`}>
-                  {repo.license.name}
-                </a>
-              )}
-              {!repo.license && (
-                <span className={"fa fa-times"} title="NO"></span>
-              )}
-            </td>
-            <td className={"govuk-table__cell"}>{repo.archived}</td>
-            <td className={"govuk-table__cell"}>{repo.language}</td>
-            <td className={"govuk-table__cell"}>{repo.stargazersCount}</td>
-            <td className={"govuk-table__cell"}>{repo.openIssuesCount}</td>
-            <td className={"govuk-table__cell"}>{repo.forksCount}</td>
-            <td className={"govuk-table__cell"}>{repo.updatedAt}</td>
-            <td className={"govuk-table__cell"}>{repo.pushedAt}</td>
-          </tr>
+      <GridLayout>
+        { repositories.map((r: any) => (
+          <Card repo={r} />
         ))}
-        </tbody>
-      </table>
+      </GridLayout>
+
+      {/*<table className={"govuk-table"}>*/}
+      {/*  <thead className={"govuk-table__head"}>*/}
+      {/*    <tr>*/}
+      {/*      <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'owner', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Owner</a>{ sorted.field === 'owner' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'name', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Name</a>{ sorted.field === 'name' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'description', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Description</a>{ sorted.field === 'description' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'visibility', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Visibility</a>{ sorted.field === 'visibility' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'license.name', ascending: !sorted.ascending})}>*/}
+      {/*        <a>License</a>{ sorted.field === 'license.name' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}>*/}
+      {/*        <a>Archived</a>*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'language', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Language</a>{ sorted.field === 'language' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"} onClick={() => setSorted({field: 'stargazersCount', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Stars</a>{ sorted.field === 'stargazersCount' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'openIssuesCount', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Issues</a>{ sorted.field === 'openIssuesCount' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'forksCount', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Forks</a>{ sorted.field === 'forksCount' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'updatedAt', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Updated</a>{ sorted.field === 'updatedAt' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*      <th scope="col" className={"govuk-table__header"}  onClick={() => setSorted({field: 'pushedAt', ascending: !sorted.ascending})}>*/}
+      {/*        <a>Pushed</a>{ sorted.field === 'pushedAt' && (sorted.ascending ? "￪" : "￬")}*/}
+      {/*      </th>*/}
+      {/*    </tr>*/}
+      {/*  </thead>*/}
+      {/*  <tbody className={"govuk-table__body"}>*/}
+        {/*    {repositories.map((repo: any) => (*/}
+      {/*      <tr key={repo.url} className={"govuk-table__row"}>*/}
+      {/*        <td className={"govuk-table__cell"}>*/}
+      {/*          <a href={`https://github.com/${repo.owner}`}>{repo.owner}</a>*/}
+      {/*        </td>*/}
+      {/*        <td className={"govuk-table__cell"}>*/}
+      {/*          <a href={`${repo.url}`}>{repo.name}</a>*/}
+      {/*        </td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.description}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.visibility}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>*/}
+              {/*          {repo.license && repo.license.name !== "Other" && (*/}
+      {/*            <a href={`${repo.license.url}`}>{repo.license.name}</a>*/}
+      {/*          )}*/}
+              {/*          {repo.license && repo.license.name === "Other" && (*/}
+      {/*            <a href={`${repo.url}}/blob/master/LICENSE`}>*/}
+                  {/*              {repo.license.name}*/}
+      {/*            </a>*/}
+      {/*          )}*/}
+              {/*          {!repo.license && (*/}
+      {/*            <span className={"fa fa-times"} title="NO"></span>*/}
+      {/*          )}*/}
+      {/*        </td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.archived}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.language}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.stargazersCount}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.openIssuesCount}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.forksCount}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.updatedAt}</td>*/}
+      {/*        <td className={"govuk-table__cell"}>{repo.pushedAt}</td>*/}
+      {/*      </tr>*/}
+      {/*    ))}*/}
+      {/*  </tbody>*/}
+      {/*</table>*/}
     </>
   );
 }
