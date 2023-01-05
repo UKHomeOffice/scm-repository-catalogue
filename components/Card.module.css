@@ -6,13 +6,26 @@
     background-color: #ffffff;
     color: #041244;
 
-    font-size: 16px;
+    font-size: 10px;
     font-family: "GDS Transport", "arial" ,sans-serif;
     word-wrap: break-word;
 }
 
-.card h2 {
-    font-size: 18px;
+.org {
+    color: #8e8e8e;
+    font-size: 10px;
+}
+
+.card h2,
+.card a, .card a:visited, .card a:active {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.card a:hover {
+    text-decoration: underline;
 }
 
 .container {
@@ -25,14 +38,15 @@
 }
 
 .labels > div {
-    background: #ececec;
-    border-radius: 0.8em;
-    margin-right: 0.2em;
+    /*background: #ececec;*/
+    /*border-radius: 0.8em;*/
+    /*margin-right: 0.2em;*/
     padding: 0.25em 0.5em;
     text-align: center;
-    font-size: 12px;
+    font-size: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex: 1;
 }
 
