@@ -49,7 +49,7 @@ export default function Index({repos}: { repos: any }) {
     }
 
     setRepositories(sortedList);
-  }, [filtered, sorted]);
+  }, [filtered, sorted, repos]);
 
   const handleSortFieldChanged = (e: ChangeEvent) => {
     e.preventDefault();
@@ -179,7 +179,7 @@ export default function Index({repos}: { repos: any }) {
 
       <GridLayout>
         {repositories.map((r: any) => (
-          <Card repo={r}/>
+          <Card key={r.name} repo={r}/>
         ))}
       </GridLayout>
 
