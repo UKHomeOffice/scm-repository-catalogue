@@ -1,6 +1,6 @@
 import Head from "next/head";
 import {ChangeEvent, useEffect, useState} from "react";
-import {filter, get, sortBy} from "lodash";
+import {filter, get, sortBy, debounce} from "lodash";
 import Card from "../components/Card";
 export async function getStaticProps() {
   const res = await fetch(
@@ -41,7 +41,6 @@ export default function Index({repos}: { repos: any }) {
         || r.owner.toLowerCase().includes((filtered.search.toLowerCase()));
     })
 
-    console.log({filtered, sorted})
     const sortedList = sortBy(newList, r => get(r, sorted.field));
     if (!sorted.ascending) {
       sortedList.reverse();
@@ -125,9 +124,7 @@ export default function Index({repos}: { repos: any }) {
 
       <div className="govuk-form-group">
         <label className="govuk-label">Search for repository name:</label>
-        <input className="govuk-input govuk-!-width-one-half" onChange={e => { // @ts-ignore
-          setFiltered({search: e.target.value});
-        }}/>
+        <input className="govuk-input govuk-!-width-one-half" onChange={debounce((e) => setFiltered({search: e.target.value}), 500, { 'maxWait': 1000 })}/>
 
         <div style={{paddingTop: 10}}>
           <div style={{
@@ -178,7 +175,7 @@ export default function Index({repos}: { repos: any }) {
 
       <GridLayout>
         {repositories.map((r: any) => (
-          <Card key={r.name} repo={r}/>
+          <Card key={`${r.owner}-${r.name}`} repo={r}/>
         ))}
       </GridLayout>
 
