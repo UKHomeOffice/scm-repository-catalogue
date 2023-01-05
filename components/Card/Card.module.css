@@ -53,4 +53,11 @@
 .stats {
     display: flex;
     align-items: center;
+    gap: 4px;
+}
+
+.stats div {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
 }

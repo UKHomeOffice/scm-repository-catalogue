@@ -42,8 +42,12 @@ const Card: React.FC<RepoCardProps> = ({repo}) => (<div className={styles.card}>
 
 
   <div className={styles.stats}>
+    <div>
     <Image width={10} height={10} src={starSvg} alt={"Number of stars"} /> {repo.stargazersCount}
+    </div>
+  <div>
     <Image width={10} height={10} src={forkSvg} alt={"Number of forks"} />{repo.forksCount}
+  </div>
   </div>
   </div>
 
