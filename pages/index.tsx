@@ -2,8 +2,6 @@ import Head from "next/head";
 import {ChangeEvent, useEffect, useState} from "react";
 import {filter, get, sortBy} from "lodash";
 import Card from "../components/Card";
-import repos from "../public/repos.json";
-
 export async function getStaticProps() {
   const res = await fetch(
     "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
@@ -30,7 +28,7 @@ const GridLayout: React.FC<Props> = ({children}) => <div style={{
 </div>
 
 
-export default function Index() {
+export default function Index({repos}: { repos: any }) {
   const [filtered, setFiltered] = useState({search: ""});
   const [sorted, setSorted] = useState({field: 'owner', ascending: true});
   const [repositories, setRepositories] = useState(repos);
@@ -180,9 +178,7 @@ export default function Index() {
 
       <GridLayout>
         {repositories.map((r: any) => (
-          <>
           <Card key={r.name} repo={r}/>
-          </>
         ))}
       </GridLayout>
 
