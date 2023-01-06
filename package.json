@@ -26,7 +26,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.0.7",
-    "octokat": "^0.4.18",
+    "octokat": "^0.10.0",
     "octokit": "^2.0.10",
     "react": "18.2.0",
     "react-chartjs-2": "^4.3.1",
