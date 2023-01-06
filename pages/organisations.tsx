@@ -129,7 +129,7 @@ export default function Organisations({
           </div>
           </div>
 
-          <h3 className="govuk-heading-m">Current</h3>
+          <h3 className="govuk-heading-m">Target</h3>
           <div className="maturity-stats-container">
             <div className="maturity-stat maturity-level-5">
               <div className="maturity-stat-value">80%</div>
