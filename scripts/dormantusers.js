@@ -1,9 +1,9 @@
 "use strict";
 
-import fs from "fs";
-import { generateLastUpdated } from './lastUpdatedAt.js'
+const {  writeFileSync, readFileSync } = require("fs");
+const { generateLastUpdated } = require("./lastUpdatedAt.js");
 
-let csv = fs.readFileSync("source/dormantusers.csv")
+let csv = readFileSync("source/dormantusers.csv")
 
 // Convert the data to String and
 // split it in an array
@@ -97,11 +97,11 @@ dormantResult.dormantusers = {
 
 console.log("writing results to file");
 
-const historicFile = fs.readFileSync('./public/dormantusers.json');
+const historicFile = readFileSync('./public/dormantusers.json');
 const historicJson = JSON.parse(historicFile);
 
 historicJson.dormantUsers.values.push(dormantResult.dormantusers);
 
-fs.writeFileSync("./public/dormantusers.json", JSON.stringify(historicJson, null, 2));
+writeFileSync("./public/dormantusers.json", JSON.stringify(historicJson, null, 2));
 
 console.log("done");
