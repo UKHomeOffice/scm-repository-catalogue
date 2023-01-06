@@ -6,6 +6,7 @@ jobs:
   run:
     permissions:
       contents: write
+      pages: write
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     runs-on: ubuntu-latest    
