@@ -2,6 +2,7 @@
 
 const yaml = require("js-yaml");
 const Octokat = require("octokat");
+const { Octokit } = require("octokit");
 const Promise = require("bluebird");
 const { writeFileSync } = require("fs");
 
@@ -10,8 +11,12 @@ const { writeFileSync } = require("fs");
 const octo = new Octokat({
   token: process.env.GITHUB_TOKEN,
 });
+  const octokit = new Octokit({
+    auth: process.env.GITHUB_TOKEN
+  })
 
-const formatResult = (result) => {
+
+const formatResult = async (result) => {
   return {
     owner: result.owner.login,
     name: result.name,
@@ -27,6 +32,7 @@ const formatResult = (result) => {
     openIssuesCount: result.openIssuesCount,
     updatedAt: result.updatedAt,
     pushedAt: result.pushedAt,
+    communityProfile: result.communityProfile,
   };
 };
 
@@ -47,14 +53,6 @@ const fetchAll = async (org, args) => {
   return aggregate;
 };
 
-const allDepartments = yaml.safeLoad(
-    await (
-        await fetch(
-            "https://raw.githubusercontent.com/github/government.github.com/gh-pages/_data/governments.yml"
-        )
-    ).text()
-);
-
 const HomeOfficeOrgs = [].concat(
     ["UKHomeOffice"],
     ["HO-CTO"],
@@ -67,12 +65,38 @@ const HomeOfficeOrgs = [].concat(
     ["UKHomeOfficeForms"],
 );
 
+const appendCommunityProfileInfo = async (input) => {
+ const result = {
+   ...input,
+ };
+
+  try {
+    const communityProfile = await octokit.request('GET /repos/{owner}/{repo}/community/profile', {
+      owner: input.owner.login,
+      repo: input.name
+    });
+
+    result["communityProfile"] = communityProfile.data;
+  } catch (e) {
+    // Ignored - repo does not have communityProfile information
+  }
+
+  return result;
+}
+
+
 const allReposForAllHomeOfficeOrgs = await Promise.mapSeries(
     HomeOfficeOrgs,
     fetchAll
 );
 
-const formattedResults = allReposForAllHomeOfficeOrgs.flat(2).map(formatResult);
+const processResults = async (repositories) => {
+  const dataWithCommunityScore = await Promise.all(repositories.map(appendCommunityProfileInfo));
+  const formattedResults = await Promise.all(dataWithCommunityScore.map(formatResult));
+  return formattedResults;
+}
+
+const formattedResults = await processResults(allReposForAllHomeOfficeOrgs.flat(2));
 
 console.log("writing results to file");
 writeFileSync("./public/repos.json", JSON.stringify(formattedResults));
