@@ -73,16 +73,6 @@ export default function Header() {
                   </Link>
                 </li>
                 <li className={"govuk-header__navigation-item"}>
-                  <Link className={"govuk-header__link"} href="/contributors">
-                    Contributors
-                  </Link>
-                </li>
-                <li className={"govuk-header__navigation-item"}>
-                  <Link className={"govuk-header__link"} href="/maturity">
-                    Maturity
-                  </Link>
-                </li>
-                <li className={"govuk-header__navigation-item"}>
                   <Link className={"govuk-header__link"} href="/convergence">
                     Convergence
                   </Link>
