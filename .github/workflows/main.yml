@@ -16,9 +16,9 @@ jobs:
       with:
         node-version-file: '.nvm'
     - run: npm install
-    - run: node scripts/index.js
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_FETCH_TOKEN }}
+#    - run: node scripts/index.js
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.REPO_FETCH_TOKEN }}
     - run: npm run build-static && touch ./out/.nojekyll
     - name: Deploy to GitHub Pages
       if: github.ref == 'refs/heads/main'
