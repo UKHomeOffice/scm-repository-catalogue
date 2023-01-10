@@ -22,10 +22,10 @@ export async function getStaticProps() {
 }
 
 // @ts-ignore
-function Items({ currentItems, totalItems }) {
+function Items({ currentItems, totalItems, itemOffset, endOffset  }) {
   return (
     <>
-      <p className={"govuk-body"}>Showing {currentItems.length} of {totalItems} repositories</p>
+      <p className={"govuk-body"}>Showing {itemOffset + 1}-{Math.min(endOffset, totalItems)} of {totalItems} repositories</p>
       <GridLayout cols={3}>
         {currentItems.map((r: any) => (
           <Card
@@ -94,7 +94,7 @@ function PaginatedItems({ itemsPerPage = 100, items }) {
 
   return (
     <>
-      <Items currentItems={currentItems} totalItems={items.length} />
+      <Items currentItems={currentItems} itemOffset={itemOffset} endOffset={endOffset} totalItems={items.length} />
       <nav className="govuk-pagination" role="navigation" aria-label="results">
       <ReactPaginate
         breakLabel="..."
