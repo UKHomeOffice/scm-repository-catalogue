@@ -4,17 +4,11 @@ import "chartjs-adapter-moment";
 import { enGB } from "date-fns/locale";
 import { last } from "lodash";
 
-import {
-  Chart as ChartJS,
-  TimeScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, TimeScale, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Card from "../components/Card";
+import GridLayout from "../components/GridLayout";
+import React from "react";
 
 ChartJS.register(
   TimeScale,
@@ -57,15 +51,16 @@ export async function getStaticProps() {
       licenceLastUpdate,
       dormantUsers,
       dormantUsersLastUpdate
-    },
+    }
   };
 }
+
 export default function Enterprise({
-  licence,
-  licenceLastUpdate,
-  dormantUsers,
-  dormantUsersLastUpdate,
-}: {
+                                     licence,
+                                     licenceLastUpdate,
+                                     dormantUsers,
+                                     dormantUsersLastUpdate
+                                   }: {
   licence: Licence;
   dormantUsers: DormantUsers;
   licenceLastUpdate: any;
@@ -124,8 +119,18 @@ export default function Enterprise({
               <div className="maturity-stat-name">Licence management</div>
             </div>
           </div>
-
           <h2 className="govuk-heading-l">License Usage</h2>
+          <GridLayout cols={3}>
+            <Card
+              title={`Total Licences: ${licence.values[licence.values.length - 1].total}`}
+            />
+            <Card
+              title={`Available Licences: ${licence.values[licence.values.length - 1].available}`}
+            />
+            <Card
+              title={`Used Licences: ${licence.values[licence.values.length - 1].used}`}
+            />
+          </GridLayout>
           <div style={{ width: "800px" }}>
             <Line
               options={{
@@ -136,14 +141,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB,
-                      },
-                    },
+                        locale: enGB
+                      }
+                    }
                   },
                   y: {
-                    min: 0,
-                  },
-                },
+                    min: 0
+                  }
+                }
               }}
               data={{
                 labels: licence.values.map((row) => row.lastUpdatedAt),
@@ -151,61 +156,48 @@ export default function Enterprise({
                   {
                     label: "Available",
                     data: licence.values.map((row) => row.available),
-                    borderColor: "#FF6384",
+                    borderColor: "#FF6384"
                   },
                   {
                     label: "Used",
                     data: licence.values.map((row) => row.used),
-                    borderColor: "#00FF00",
+                    borderColor: "#00FF00"
                   },
                   {
                     label: "Total",
                     data: licence.values.map((row) => row.total),
-                    borderColor: "#0000FF",
-                  },
-                ],
+                    borderColor: "#0000FF"
+                  }
+                ]
               }}
             />
           </div>
-          <table className="govuk-table">
-            <thead className="govuk-table__head">
-              <tr>
-                <th scope="col" className="govuk-table__header">
-                  <a>Licence Usage</a>
-                </th>
-                <th scope="col" className="govuk-table__header">
-                  <a>Number of licences</a>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="govuk-table__body">
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Total Purchased licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].total}
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Available licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].available}
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Used licences</td>
-                <td className="govuk-table__cell">
-                  {licence.values[licence.values.length - 1].used}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
           <p className="govuk-body">
             {`Table Last Updated: ${licenceLastUpdate}`}
-
           </p>
 
           <h2 className="govuk-heading-l">Dormant Users</h2>
+          <GridLayout cols={3}>
+            <Card
+              title={`Collaborators: ${
+                dormantUsers.values[dormantUsers.values.length - 1]
+                  .collaborators
+              }`}
+            />
+            <Card
+              title={`Outside Collaborators: ${
+                dormantUsers.values[dormantUsers.values.length - 1]
+                  .outsidecollaborators
+              }`}
+            />
+            <Card
+              title={`Dormant Users: ${
+                dormantUsers.values[dormantUsers.values.length - 1]
+                  .total
+              }`}
+            />
+          </GridLayout>
+
           <div style={{ width: "800px" }}>
             <Line
               id={"dormantUsers"}
@@ -217,14 +209,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB,
-                      },
-                    },
+                        locale: enGB
+                      }
+                    }
                   },
                   y: {
-                    min: 0,
-                  },
-                },
+                    min: 0
+                  }
+                }
               }}
               data={{
                 labels: dormantUsers.values.map((row) => row.lastUpdatedAt),
@@ -232,62 +224,24 @@ export default function Enterprise({
                   {
                     label: "Collaborators",
                     data: dormantUsers.values.map((row) => row.collaborators),
-                    borderColor: "#FF6384",
+                    borderColor: "#FF6384"
                   },
                   {
                     label: "Outside Collaborators",
                     data: dormantUsers.values.map(
                       (row) => row.outsidecollaborators
                     ),
-                    borderColor: "#00FF00",
+                    borderColor: "#00FF00"
                   },
                   {
                     label: "Total Collaborators",
                     data: dormantUsers.values.map((row) => row.total),
-                    borderColor: "#0000FF",
-                  },
-                ],
+                    borderColor: "#0000FF"
+                  }
+                ]
               }}
             />
           </div>
-          <table className="govuk-table">
-            <thead className="govuk-table__head">
-              <tr>
-                <th scope="col" className="govuk-table__header">
-                  <a>User Type</a>
-                </th>
-                <th scope="col" className="govuk-table__header">
-                  <a>Total</a>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="govuk-table__body">
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Collaborators</td>
-                <td className="govuk-table__cell">
-                  {
-                    dormantUsers.values[dormantUsers.values.length - 1]
-                      .collaborators
-                  }
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Outside Collaborators</td>
-                <td className="govuk-table__cell">
-                  {
-                    dormantUsers.values[dormantUsers.values.length - 1]
-                      .outsidecollaborators
-                  }
-                </td>
-              </tr>
-              <tr className="govuk-table__row">
-                <td className="govuk-table__cell">Total Dormant Users</td>
-                <td className="govuk-table__cell">
-                  {dormantUsers.values[dormantUsers.values.length - 1].total}
-                </td>
-              </tr>
-            </tbody>
-          </table>
 
           <p className="govuk-body">
             {`Table Last Updated: ${dormantUsersLastUpdate}`}

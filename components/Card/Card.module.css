@@ -50,13 +50,14 @@
     flex: 1;
 }
 
-.stats {
+.indicators {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
 }
 
-.stats div {
+.indicators div {
     display: flex;
     justify-content: center;
     gap: 2px;
