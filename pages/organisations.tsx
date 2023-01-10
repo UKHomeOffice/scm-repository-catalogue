@@ -2,7 +2,6 @@ import organisationJson from "../public/organisations.json";
 import packagesJson from "../public/organisations-packages.json";
 import appColoursJson from "../public/apps-colour.json";
 import { groupBy, last, capitalize, repeat, isEmpty } from "lodash";
-import Image from "next/image";
 
 import "chartjs-adapter-moment";
 import {
@@ -16,7 +15,6 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import React from "react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import Card from "../components/Card";
 
 ChartJS.register(
@@ -218,7 +216,7 @@ export default function Organisations({
                 }}
                 data={{
                   datasets: Object.keys(appsData).flatMap((year) => {
-                    return appsData[year].map((app, idx) => ({
+                    return appsData[year].map((app) => ({
                       label: app.app,
                       data: {
                         [year]: 1,
