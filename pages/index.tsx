@@ -7,6 +7,7 @@ import starSvg from "../components/Card/star.svg";
 import forkSvg from "../components/Card/fork.svg";
 import communitySvg from "../components/Card/community.svg";
 import GridLayout from "../components/GridLayout";
+import Header from "../components/Header";
 export async function getStaticProps() {
   // const res = await fetch(
   //   "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
@@ -101,139 +102,144 @@ export default function Index({ repos }: { repos: any }) {
         />
       </Head>
 
-      <h1 className={"govuk-heading-xl"}>GitHub Repository Catalogue</h1>
+      <Header />
+      <div className={"govuk-width-container"}>
+        <main className={"govuk-main-wrapper"} id="main-content" role="main">
+          <h1 className={"govuk-heading-xl"}>GitHub Repository Catalogue</h1>
 
-      {!repositories && (
-        <p className={"govuk-body"}>
-          LOADING... Page can take a while to render
-        </p>
-      )}
-      {repositories && (
-        <p className={"govuk-body"}>
-          Currently showing {repositories.length} repositories
-        </p>
-      )}
-
-      <div className="govuk-form-group">
-        <label className="govuk-label">Search for repository name:</label>
-        <input
-          className="govuk-input govuk-!-width-one-half"
-          onChange={debounce(
-            (e) => setFiltered({ search: e.target.value }),
-            500,
-            { maxWait: 1000 }
+          {!repositories && (
+            <p className={"govuk-body"}>
+              LOADING... Page can take a while to render
+            </p>
           )}
-        />
+          {repositories && (
+            <p className={"govuk-body"}>
+              Currently showing {repositories.length} repositories
+            </p>
+          )}
 
-        <div style={{ paddingTop: 10 }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 20,
-            }}
-          >
-            <div>
+          <div className="govuk-form-group">
+            <label className="govuk-label">Search for repository name:</label>
+            <input
+              className="govuk-input govuk-!-width-one-half"
+              onChange={debounce(
+                (e) => setFiltered({ search: e.target.value }),
+                500,
+                { maxWait: 1000 }
+              )}
+            />
+
+            <div style={{ paddingTop: 10 }}>
               <div
                 style={{
                   display: "flex",
+                  flexDirection: "row",
+                  gap: 20,
                 }}
               >
-                <label className="govuk-label" htmlFor="sort">
-                  Sort by
-                </label>
-              </div>
-              <div>
-                <select
-                  onChange={(e) => handleSortFieldChanged(e)}
-                  className="govuk-select"
-                  id="sort"
-                  name="sort"
-                  defaultValue="owner"
-                >
-                  <option value="owner">Organisation</option>
-                  <option value="name">Name</option>
-                  <option value="description">Description</option>
-                  <option value="visibility">Visibility</option>
-                  <option value="license.name">License</option>
-                  <option value="language">Language</option>
-                  <option value="stargazersCount">Stars</option>
-                  <option value="forksCount">Forks</option>
-                  <option value="updatedAt">Last updated</option>
-                  <option value="pushedAt">Last commit</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <div>
-                <label className="govuk-label" htmlFor="sort">
-                  Direction
-                </label>
-              </div>
-              <div>
-                <select
-                  onChange={(e) => handleSortDirectionChanged(e)}
-                  className="govuk-select"
-                  id="sort"
-                  name="sort"
-                  defaultValue="ascending"
-                >
-                  <option value="ascending">Ascending</option>
-                  <option value="descending">Descending</option>
-                </select>
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    <label className="govuk-label" htmlFor="sort">
+                      Sort by
+                    </label>
+                  </div>
+                  <div>
+                    <select
+                      onChange={(e) => handleSortFieldChanged(e)}
+                      className="govuk-select"
+                      id="sort"
+                      name="sort"
+                      defaultValue="owner"
+                    >
+                      <option value="owner">Organisation</option>
+                      <option value="name">Name</option>
+                      <option value="description">Description</option>
+                      <option value="visibility">Visibility</option>
+                      <option value="license.name">License</option>
+                      <option value="language">Language</option>
+                      <option value="stargazersCount">Stars</option>
+                      <option value="forksCount">Forks</option>
+                      <option value="updatedAt">Last updated</option>
+                      <option value="pushedAt">Last commit</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <label className="govuk-label" htmlFor="sort">
+                      Direction
+                    </label>
+                  </div>
+                  <div>
+                    <select
+                      onChange={(e) => handleSortDirectionChanged(e)}
+                      className="govuk-select"
+                      id="sort"
+                      name="sort"
+                      defaultValue="ascending"
+                    >
+                      <option value="ascending">Ascending</option>
+                      <option value="descending">Descending</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <GridLayout cols={3}>
-        {repositories.map((r: any) => (
-          <Card
-            key={`${r.owner}-${r.name}`}
-            title={r.name}
-            titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
-            subtitle={r.owner}
-            tags={[
-              {
-                name: "language",
-                value: r.language,
-                tooltipLabel: "Language",
-              },
-              {
-                name: "visibility",
-                value: r.visibility,
-                tooltipLabel: "Visibility",
-              },
-              {
-                name: "license",
-                value: get(r, "license.name"),
-                tooltipLabel: "License",
-              },
-            ]}
-            indicators={[
-              {
-                name: "stars",
-                tooltipLabel: "Number of stars",
-                value: r.stargazersCount,
-                imageSrc: starSvg,
-              },
-              {
-                name: "forks",
-                tooltipLabel: "Number of forks",
-                value: r.forksCount,
-                imageSrc: forkSvg,
-              },
-              {
-                name: "community",
-                tooltipLabel: "Community standards",
-                value: get(r, "communityProfile.health_percentage"),
-                imageSrc: communitySvg,
-              },
-            ]}
-          />
-        ))}
-      </GridLayout>
+          <GridLayout cols={3}>
+            {repositories.map((r: any) => (
+              <Card
+                key={`${r.owner}-${r.name}`}
+                title={r.name}
+                titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
+                subtitle={r.owner}
+                tags={[
+                  {
+                    name: "language",
+                    value: r.language,
+                    tooltipLabel: "Language",
+                  },
+                  {
+                    name: "visibility",
+                    value: r.visibility,
+                    tooltipLabel: "Visibility",
+                  },
+                  {
+                    name: "license",
+                    value: get(r, "license.name"),
+                    tooltipLabel: "License",
+                  },
+                ]}
+                indicators={[
+                  {
+                    name: "stars",
+                    tooltipLabel: "Number of stars",
+                    value: r.stargazersCount,
+                    imageSrc: starSvg,
+                  },
+                  {
+                    name: "forks",
+                    tooltipLabel: "Number of forks",
+                    value: r.forksCount,
+                    imageSrc: forkSvg,
+                  },
+                  {
+                    name: "community",
+                    tooltipLabel: "Community standards",
+                    value: get(r, "communityProfile.health_percentage"),
+                    imageSrc: communitySvg,
+                  },
+                ]}
+              />
+            ))}
+          </GridLayout>
+        </main>
+      </div>
     </>
   );
 }
