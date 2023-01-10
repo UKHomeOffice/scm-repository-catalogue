@@ -1,8 +1,8 @@
 import organisationJson from "../public/organisations.json";
 import packagesJson from "../public/organisations-packages.json";
 import appColoursJson from "../public/apps-colour.json";
-import { groupBy, last } from "lodash";
-import Image from 'next/image';
+import { groupBy, last, capitalize } from "lodash";
+import Image from "next/image";
 
 import "chartjs-adapter-moment";
 import {
@@ -15,6 +15,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import React from "react";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 ChartJS.register(
   CategoryScale,
@@ -29,7 +31,14 @@ const COLORS: {
   [key: string]: string;
 } = appColoursJson;
 
-const PACKAGE_TYPES = ["npm", "maven", "rubygems", "docker", "nuget", "container"];
+const PACKAGE_TYPES = [
+  "npm",
+  "maven",
+  "rubygems",
+  "docker",
+  "nuget",
+  "container",
+];
 
 interface OrgApps {
   values: {
@@ -54,7 +63,10 @@ export async function getStaticProps() {
   const { organisationApps } = organisationJson;
   let orgData = groupBy(organisationApps.values, (o) => o.organisation);
 
-  const orgType = groupBy(packagesJson["organisationPackages"]["values"], (o) => o.organisation);
+  const orgType = groupBy(
+    packagesJson["organisationPackages"]["values"],
+    (o) => o.organisation
+  );
 
   for (let org of orgs) {
     // @ts-ignore
@@ -126,7 +138,7 @@ export default function Organisations({
             <div className="maturity-stat maturity-level-4">
               <div className="maturity-stat-value">70%</div>
               <div className="maturity-stat-name">Open source packages</div>
-          </div>
+            </div>
           </div>
 
           <h3 className="govuk-heading-m">Target</h3>
@@ -152,7 +164,10 @@ export default function Organisations({
                 <th scope="col" className="govuk-table__header">
                   Organisation name
                 </th>
-                <th scope="col" className="govuk-table__header govuk-!-width-one-half">
+                <th
+                  scope="col"
+                  className="govuk-table__header govuk-!-width-one-half"
+                >
                   Packages
                 </th>
               </tr>
@@ -160,34 +175,56 @@ export default function Organisations({
 
             <tbody className="govuk-table__body">
               {orgs.map((org: string) => (
-                <tr
-                  key={org}
-                  className="govuk-table__row" >
-
+                <tr key={org} className="govuk-table__row">
                   <th scope="row" className="govuk-table__header">
                     <a href={"https://github.com/" + org}>{org}</a>
                   </th>
 
                   <td className="govuk-table__cell ">
-                    {
-                      PACKAGE_TYPES.map(pType => (
-                        <div style={{ float: 'left' }} key={pType}>
-                          <Image src={`/scm-repository-catalogue/assets/images/${pType}.png`} alt={`${pType}`} width={30} height={30} />
-                          <p style={{ float: 'right', margin: '0', padding: '0px 15px' }}> {`${orgData[org][0].packages[pType] ? orgData[org][0].packages[pType].length : "0"} `} </p>
+                    {PACKAGE_TYPES.map((pType) => (
+                      <>
+                        <div
+                          id={`${orgData[org][0].name}-${pType}`}
+                          style={{ float: "left" }}
+                          key={pType}
+                        >
+                          <Image
+                            src={`/scm-repository-catalogue/assets/images/${pType}.png`}
+                            alt={`${pType}`}
+                            width={30}
+                            height={30}
+                          />
+                          <p
+                            style={{
+                              float: "right",
+                              margin: "0",
+                              padding: "0px 15px",
+                            }}
+                          >
+                            {" "}
+                            {`${
+                              orgData[org][0].packages[pType]
+                                ? orgData[org][0].packages[pType].length
+                                : "0"
+                            } `}{" "}
+                          </p>
                         </div>
-                      ))
-                    }
+                        <ReactTooltip
+                          anchorId={`${orgData[org][0].name}-${pType}`}
+                          content={`${capitalize(pType)}`}
+                          place="top"
+                        />
+                      </>
+                    ))}
                   </td>
                 </tr>
               ))}
             </tbody>
-
           </table>
           <h2 className="govuk-heading-l">Github Installed Apps</h2>
 
           <GridLayout>
             {Object.keys(orgData).map((org: string) => {
-
               // @ts-ignore
               const appsData = groupBy(last(orgData[org]).installedApps, (yr) =>
                 new Date(yr.installedAt).getUTCFullYear()
