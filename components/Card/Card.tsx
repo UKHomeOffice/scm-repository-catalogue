@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import Link from "next/link";
 import { Tooltip } from "react-tooltip";
+import React from "react";
 
 interface Indicator {
   name: string;
@@ -51,7 +52,7 @@ const Card: React.FC<CardContentProps> = ({
     <div className={styles.container}>
       <div className={styles.labels}>
         {tags?.map((tag) => (
-          <>
+          <React.Fragment key={`${subtitle}-${title}-${tag.name}`}>
             {tag.value && (
               <>
                 <div id={`${subtitle}-${title}-${tag.name}`}>{tag.value}</div>
@@ -62,13 +63,13 @@ const Card: React.FC<CardContentProps> = ({
                 />
               </>
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
 
       <div className={styles.indicators}>
         {indicators?.map((indicator) => (
-          <>
+          <React.Fragment key={`${subtitle}-${title}-${indicator.name}`}>
             <div id={`${subtitle}-${title}-${indicator.name}`}>
               <Image
                 width={indicator.imageSize || 10}
@@ -83,7 +84,7 @@ const Card: React.FC<CardContentProps> = ({
               content={`${indicator.tooltipLabel}`}
               place="top"
             />
-          </>
+          </React.Fragment>
         ))}
       </div>
     </div>

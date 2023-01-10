@@ -119,8 +119,6 @@ const GridLayout: React.FC<Props> = ({ children, cols, style }) => (
 );
 
 export default function Organisations({
-  repos,
-  organisationApps,
   orgs,
   orgData,
 }: OrganisationPageProps) {
@@ -166,6 +164,7 @@ export default function Organisations({
         <GridLayout cols={3}>
           {orgs.map((org: string) => (
             <Card
+              key={`${org}-pType`}
               title={org}
               titleLinkUrl={`https://github.com/${org}`}
               indicators={PACKAGE_TYPES.map((pType) => ({
