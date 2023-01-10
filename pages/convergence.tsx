@@ -1,6 +1,21 @@
 import Link from "next/link";
+import {partition} from "lodash";
 
-export default function Convergence() {
+export async function getStaticProps() {
+  const res = await fetch(
+    "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
+  );
+  const repos = await res.json();
+
+  const [publicR, privateR] = partition(repos, {'visibility': 'public'})
+  return {
+    props: {
+      publicCount: publicR.length,
+      privateCount: privateR.length,
+    },
+  };
+}
+export default function Convergence({publicCount, privateCount}) {
   return (
     <>
       <div className="govuk-width-container">
@@ -38,14 +53,14 @@ export default function Convergence() {
                 <td className="govuk-table__cell">
                   <Link href="/">GitHub Public</Link>
                 </td>
-                <td className="govuk-table__cell">1288</td>
+                <td className="govuk-table__cell">{publicCount}</td>
               </tr>
               <tr
                 className="govuk-table__row"
                 ng-repeat="repo in repos | orderBy:sortType:sortReverse"
               >
                 <td className="govuk-table__cell">GitHub Private</td>
-                <td className="govuk-table__cell">144</td>
+                <td className="govuk-table__cell">{privateCount}</td>
               </tr>
               <tr
                 className="govuk-table__row"

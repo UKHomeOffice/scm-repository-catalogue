@@ -6,6 +6,7 @@ import repos from "../public/repos.json";
 import starSvg from "../components/Card/star.svg";
 import forkSvg from "../components/Card/fork.svg";
 import communitySvg from "../components/Card/community.svg";
+import GridLayout from "../components/GridLayout";
 export async function getStaticProps() {
   // const res = await fetch(
   //   "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
@@ -18,21 +19,6 @@ export async function getStaticProps() {
   };
 }
 
-type Props = {
-  children?: React.ReactNode;
-};
-
-const GridLayout: React.FC<Props> = ({ children }) => (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr 1fr",
-      gap: "1em",
-    }}
-  >
-    {children}
-  </div>
-);
 
 export default function Index({ repos }: { repos: any }) {
   const [filtered, setFiltered] = useState({ search: "" });
@@ -202,7 +188,7 @@ export default function Index({ repos }: { repos: any }) {
         </div>
       </div>
 
-      <GridLayout>
+      <GridLayout cols={3}>
         {repositories.map((r: any) => (
           <Card
             key={`${r.owner}-${r.name}`}

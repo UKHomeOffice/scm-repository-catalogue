@@ -2,11 +2,12 @@ import enterpriseJson from "../public/enterprise.json";
 import dormantUsersJson from "../public/dormantusers.json";
 import "chartjs-adapter-moment";
 import { enGB } from "date-fns/locale";
-import { last, repeat } from "lodash";
+import { last } from "lodash";
 
 import { Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, TimeScale, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Card from "../components/Card";
+import GridLayout from "../components/GridLayout";
 import React from "react";
 
 ChartJS.register(
@@ -53,25 +54,6 @@ export async function getStaticProps() {
     }
   };
 }
-type Props = {
-  cols: number;
-  children?: React.ReactNode;
-
-  style?: object;
-};
-
-const GridLayout: React.FC<Props> = ({ children, cols, style }) => (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: repeat("1fr ", cols),
-      gap: "2em",
-      ...style
-    }}
-  >
-    {children}
-  </div>
-);
 
 export default function Enterprise({
                                      licence,

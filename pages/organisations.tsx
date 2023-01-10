@@ -16,6 +16,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import React from "react";
 import Card from "../components/Card";
+import GridLayout from "../components/GridLayout";
 
 ChartJS.register(
   CategoryScale,
@@ -96,26 +97,6 @@ interface OrganisationPageProps {
   orgData: any;
 }
 
-type Props = {
-  cols: number;
-  children?: React.ReactNode;
-
-  style?: object;
-};
-
-const GridLayout: React.FC<Props> = ({ children, cols, style }) => (
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: repeat("1fr ", cols),
-      gap: "2em",
-      ...style,
-    }}
-  >
-    {children}
-  </div>
-);
-
 export default function Organisations({
   orgs,
   orgData,
@@ -159,7 +140,7 @@ export default function Organisations({
 
         <h1 className="govuk-heading-l">Organisations</h1>
 
-        <GridLayout cols={3}>
+        <GridLayout cols={4}>
           {orgs.map((org: string) => (
             <Card
               key={`${org}-pType`}
