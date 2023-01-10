@@ -7,6 +7,7 @@ import starSvg from "../components/Card/star.svg";
 import forkSvg from "../components/Card/fork.svg";
 import communitySvg from "../components/Card/community.svg";
 import GridLayout from "../components/GridLayout";
+import ReactPaginate from 'react-paginate';
 import Header from "../components/Header";
 export async function getStaticProps() {
   // const res = await fetch(
@@ -18,6 +19,104 @@ export async function getStaticProps() {
       repos: repos,
     },
   };
+}
+
+// @ts-ignore
+function Items({ currentItems, totalItems, itemOffset, endOffset  }) {
+  return (
+    <>
+      <p className={"govuk-body"}>Showing {itemOffset + 1}-{Math.min(endOffset, totalItems)} of {totalItems} repositories</p>
+      <GridLayout cols={3}>
+        {currentItems.map((r: any) => (
+          <Card
+            key={`${r.owner}-${r.name}`}
+            title={r.name}
+            titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
+            subtitle={r.owner}
+            tags={[
+              {
+                name: "language",
+                value: r.language,
+                tooltipLabel: "Language",
+              },
+              {
+                name: "visibility",
+                value: r.visibility,
+                tooltipLabel: "Visibility",
+              },
+              {
+                name: "license",
+                value: get(r, "license.name"),
+                tooltipLabel: "License",
+              },
+            ]}
+            indicators={[
+              {
+                name: "stars",
+                tooltipLabel: "Number of stars",
+                value: r.stargazersCount,
+                imageSrc: starSvg,
+              },
+              {
+                name: "forks",
+                tooltipLabel: "Number of forks",
+                value: r.forksCount,
+                imageSrc: forkSvg,
+              },
+              {
+                name: "community",
+                tooltipLabel: "Community standards",
+                value: get(r, "communityProfile.health_percentage"),
+                imageSrc: communitySvg,
+              },
+            ]}
+          />
+        ))}
+      </GridLayout>
+    </>
+  );
+}
+
+// @ts-ignore
+function PaginatedItems({ itemsPerPage = 100, items }) {
+
+  const [itemOffset, setItemOffset] = useState(0);
+
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = items.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  // @ts-ignore
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % items.length;
+    setItemOffset(newOffset);
+  };
+
+  return (
+    <>
+      <Items currentItems={currentItems} itemOffset={itemOffset} endOffset={endOffset} totalItems={items.length} />
+      <nav className="govuk-pagination" role="navigation" aria-label="results">
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="< previous"
+        previousLinkClassName={"govuk-pagination__prev"}
+        nextLinkClassName={"govuk-pagination__next"}
+        pageClassName={"govuk-pagination__item"}
+        pageLinkClassName={"govuk-link govuk-pagination__link"}
+        className={"govuk-pagination govuk-pagination__list"}
+        breakClassName={"govuk-pagination__item govuk-pagination__item--ellipses"}
+        activeClassName={"govuk-pagination__item--current"}
+        activeLinkClassName={"govuk-link govuk-pagination__link"}
+        containerClassName={"govuk-pagination"}
+        disabledClassName={"govuk-button--disabled"}
+      />
+      </nav>
+    </>
+  );
 }
 
 export default function Index({ repos }: { repos: any }) {
@@ -112,11 +211,6 @@ export default function Index({ repos }: { repos: any }) {
               LOADING... Page can take a while to render
             </p>
           )}
-          {repositories && (
-            <p className={"govuk-body"}>
-              Currently showing {repositories.length} repositories
-            </p>
-          )}
 
           <div className="govuk-form-group">
             <label className="govuk-label">Search for repository name:</label>
@@ -191,53 +285,7 @@ export default function Index({ repos }: { repos: any }) {
             </div>
           </div>
 
-          <GridLayout cols={3}>
-            {repositories.map((r: any) => (
-              <Card
-                key={`${r.owner}-${r.name}`}
-                title={r.name}
-                titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
-                subtitle={r.owner}
-                tags={[
-                  {
-                    name: "language",
-                    value: r.language,
-                    tooltipLabel: "Language",
-                  },
-                  {
-                    name: "visibility",
-                    value: r.visibility,
-                    tooltipLabel: "Visibility",
-                  },
-                  {
-                    name: "license",
-                    value: get(r, "license.name"),
-                    tooltipLabel: "License",
-                  },
-                ]}
-                indicators={[
-                  {
-                    name: "stars",
-                    tooltipLabel: "Number of stars",
-                    value: r.stargazersCount,
-                    imageSrc: starSvg,
-                  },
-                  {
-                    name: "forks",
-                    tooltipLabel: "Number of forks",
-                    value: r.forksCount,
-                    imageSrc: forkSvg,
-                  },
-                  {
-                    name: "community",
-                    tooltipLabel: "Community standards",
-                    value: get(r, "communityProfile.health_percentage"),
-                    imageSrc: communitySvg,
-                  },
-                ]}
-              />
-            ))}
-          </GridLayout>
+          <PaginatedItems itemsPerPage={60} items={repositories} />
         </main>
       </div>
     </>
