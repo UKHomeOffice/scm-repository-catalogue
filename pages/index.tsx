@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { ChangeEvent, useEffect, useState } from "react";
-import { filter, get, sortBy, debounce, sampleSize } from "lodash";
+import { filter, get, sortBy, debounce } from "lodash";
 import Card from "../components/Card";
 import repos from "../public/repos.json";
 import starSvg from "../components/Card/star.svg";
@@ -14,11 +14,10 @@ export async function getStaticProps() {
   // const repos = await res.json();
   return {
     props: {
-      repos: sampleSize(repos, 100),
+      repos: repos,
     },
   };
 }
-
 
 export default function Index({ repos }: { repos: any }) {
   const [filtered, setFiltered] = useState({ search: "" });
