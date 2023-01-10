@@ -1,9 +1,11 @@
 import Head from "next/head";
 import { ChangeEvent, useEffect, useState } from "react";
-import { filter, get, sortBy, debounce } from "lodash";
+import { filter, get, sortBy, debounce, sampleSize } from "lodash";
 import Card from "../components/Card";
 import repos from "../public/repos.json";
-import { Tooltip } from "react-tooltip";
+import starSvg from "../components/Card/star.svg";
+import forkSvg from "../components/Card/fork.svg";
+import communitySvg from "../components/Card/community.svg";
 export async function getStaticProps() {
   // const res = await fetch(
   //   "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
@@ -11,7 +13,7 @@ export async function getStaticProps() {
   // const repos = await res.json();
   return {
     props: {
-      repos,
+      repos: sampleSize(repos, 100),
     },
   };
 }
@@ -202,7 +204,48 @@ export default function Index({ repos }: { repos: any }) {
 
       <GridLayout>
         {repositories.map((r: any) => (
-          <Card key={`${r.owner}-${r.name}`} repo={r} />
+          <Card
+            key={`${r.owner}-${r.name}`}
+            title={r.name}
+            subtitle={r.owner}
+            tags={[
+              {
+                name: "language",
+                value: r.language,
+                tooltipLabel: "Language",
+              },
+              {
+                name: "visibility",
+                value: r.visibility,
+                tooltipLabel: "Visibility",
+              },
+              {
+                name: "license",
+                value: get(r, "license.name"),
+                tooltipLabel: "License",
+              },
+            ]}
+            indicators={[
+              {
+                name: "stars",
+                tooltipLabel: "Number of stars",
+                value: r.stargazersCount,
+                imageSrc: starSvg,
+              },
+              {
+                name: "forks",
+                tooltipLabel: "Number of forks",
+                value: r.forksCount,
+                imageSrc: forkSvg,
+              },
+              {
+                name: "community",
+                tooltipLabel: "Community standards",
+                value: get(r, "communityProfile.health_percentage"),
+                imageSrc: communitySvg,
+              },
+            ]}
+          />
         ))}
       </GridLayout>
     </>
