@@ -4,32 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Tooltip } from "react-tooltip";
 
-interface RepoCardProps {
-  repo: {
-    name: string;
-    owner: string;
-    description: string;
-    visibility: string;
-    license?: {
-      name?: string;
-    };
-    language?: string;
-    stargazersCount: number;
-    openIssuesCount: number;
-    forksCount: number;
-    updatedAt: string;
-    pushedAt: string;
-    communityProfile?: {
-      health_percentage: number;
-    };
-  };
-}
-
 interface Indicator {
   name: string;
 
   tooltipLabel: string;
   imageSrc: string;
+
+  imageSize?: number;
   value: string;
 }
 
@@ -85,13 +66,13 @@ const Card: React.FC<CardContentProps> = ({
         ))}
       </div>
 
-      <div className={styles.stats}>
+      <div className={styles.indicators}>
         {indicators?.map((indicator) => (
           <>
             <div id={`${subtitle}-${title}-${indicator.name}`}>
               <Image
-                width={10}
-                height={10}
+                width={indicator.imageSize || 10}
+                height={indicator.imageSize || 10}
                 src={indicator.imageSrc}
                 alt={indicator.tooltipLabel}
               />{" "}

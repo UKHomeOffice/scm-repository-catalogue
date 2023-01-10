@@ -207,6 +207,7 @@ export default function Index({ repos }: { repos: any }) {
           <Card
             key={`${r.owner}-${r.name}`}
             title={r.name}
+            titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
             subtitle={r.owner}
             tags={[
               {
