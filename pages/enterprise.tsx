@@ -4,11 +4,21 @@ import "chartjs-adapter-moment";
 import { enGB } from "date-fns/locale";
 import { last } from "lodash";
 
-import { Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, TimeScale, Title, Tooltip } from "chart.js";
+import {
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  TimeScale,
+  Title,
+  Tooltip,
+} from "chart.js";
 import { Line } from "react-chartjs-2";
 import Card from "../components/Card";
 import GridLayout from "../components/GridLayout";
 import React from "react";
+import Header from "../components/Header";
 
 ChartJS.register(
   TimeScale,
@@ -50,17 +60,17 @@ export async function getStaticProps() {
       licence,
       licenceLastUpdate,
       dormantUsers,
-      dormantUsersLastUpdate
-    }
+      dormantUsersLastUpdate,
+    },
   };
 }
 
 export default function Enterprise({
-                                     licence,
-                                     licenceLastUpdate,
-                                     dormantUsers,
-                                     dormantUsersLastUpdate
-                                   }: {
+  licence,
+  licenceLastUpdate,
+  dormantUsers,
+  dormantUsersLastUpdate,
+}: {
   licence: Licence;
   dormantUsers: DormantUsers;
   licenceLastUpdate: any;
@@ -68,8 +78,9 @@ export default function Enterprise({
 }) {
   return (
     <>
-      <div className="govuk-width-container ">
-        <main className="govuk-main-wrapper " id="main-content" role="main">
+      <Header />
+      <div className={"govuk-width-container"}>
+        <main className={"govuk-main-wrapper"} id="main-content" role="main">
           <h1 className="govuk-heading-xl">Enterprise</h1>
 
           <h2 className="govuk-heading-l">Maturity</h2>
@@ -122,13 +133,19 @@ export default function Enterprise({
           <h2 className="govuk-heading-l">License Usage</h2>
           <GridLayout cols={3}>
             <Card
-              title={`Total Licences: ${licence.values[licence.values.length - 1].total}`}
+              title={`Total Licences: ${
+                licence.values[licence.values.length - 1].total
+              }`}
             />
             <Card
-              title={`Available Licences: ${licence.values[licence.values.length - 1].available}`}
+              title={`Available Licences: ${
+                licence.values[licence.values.length - 1].available
+              }`}
             />
             <Card
-              title={`Used Licences: ${licence.values[licence.values.length - 1].used}`}
+              title={`Used Licences: ${
+                licence.values[licence.values.length - 1].used
+              }`}
             />
           </GridLayout>
           <div style={{ width: "800px" }}>
@@ -141,14 +158,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB
-                      }
-                    }
+                        locale: enGB,
+                      },
+                    },
                   },
                   y: {
-                    min: 0
-                  }
-                }
+                    min: 0,
+                  },
+                },
               }}
               data={{
                 labels: licence.values.map((row) => row.lastUpdatedAt),
@@ -156,19 +173,19 @@ export default function Enterprise({
                   {
                     label: "Available",
                     data: licence.values.map((row) => row.available),
-                    borderColor: "#FF6384"
+                    borderColor: "#FF6384",
                   },
                   {
                     label: "Used",
                     data: licence.values.map((row) => row.used),
-                    borderColor: "#00FF00"
+                    borderColor: "#00FF00",
                   },
                   {
                     label: "Total",
                     data: licence.values.map((row) => row.total),
-                    borderColor: "#0000FF"
-                  }
-                ]
+                    borderColor: "#0000FF",
+                  },
+                ],
               }}
             />
           </div>
@@ -192,8 +209,7 @@ export default function Enterprise({
             />
             <Card
               title={`Dormant Users: ${
-                dormantUsers.values[dormantUsers.values.length - 1]
-                  .total
+                dormantUsers.values[dormantUsers.values.length - 1].total
               }`}
             />
           </GridLayout>
@@ -209,14 +225,14 @@ export default function Enterprise({
                     max: new Date().getTime() + 8.64e7,
                     adapters: {
                       date: {
-                        locale: enGB
-                      }
-                    }
+                        locale: enGB,
+                      },
+                    },
                   },
                   y: {
-                    min: 0
-                  }
-                }
+                    min: 0,
+                  },
+                },
               }}
               data={{
                 labels: dormantUsers.values.map((row) => row.lastUpdatedAt),
@@ -224,28 +240,27 @@ export default function Enterprise({
                   {
                     label: "Collaborators",
                     data: dormantUsers.values.map((row) => row.collaborators),
-                    borderColor: "#FF6384"
+                    borderColor: "#FF6384",
                   },
                   {
                     label: "Outside Collaborators",
                     data: dormantUsers.values.map(
                       (row) => row.outsidecollaborators
                     ),
-                    borderColor: "#00FF00"
+                    borderColor: "#00FF00",
                   },
                   {
                     label: "Total Collaborators",
                     data: dormantUsers.values.map((row) => row.total),
-                    borderColor: "#0000FF"
-                  }
-                ]
+                    borderColor: "#0000FF",
+                  },
+                ],
               }}
             />
           </div>
 
           <p className="govuk-body">
             {`Table Last Updated: ${dormantUsersLastUpdate}`}
-
           </p>
         </main>
       </div>
