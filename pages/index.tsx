@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ChangeEvent, useEffect, useState } from "react";
+import {ChangeEvent, useContext, useEffect, useState} from "react";
 import { filter, get, sortBy, debounce } from "lodash";
 import Card from "../components/Card";
 import repos from "../public/repos.json";
@@ -9,23 +9,63 @@ import communitySvg from "../components/Card/community.svg";
 import GridLayout from "../components/GridLayout";
 import ReactPaginate from 'react-paginate';
 import Header from "../components/Header";
+import MaturityContext from "../store/MaturityContext";
+import {MaturityPayload} from "../types/maturity";
+
+
+
+
 export async function getStaticProps() {
   // const res = await fetch(
   //   "https://ukhomeoffice.github.io/scm-repository-catalogue/repos.json"
   // );
   // const repos = await res.json();
+
+
+
+
+  const maturity: MaturityPayload = {
+    "HO-CTO": {
+      "sre-monitoring-as-code": {
+        score: 80
+      }
+    },
+    "UKHomeOffice": {
+      "scm-repository-catalogue": {
+        score: 30
+      },
+      "scm-github-terraform": {
+        score: 50
+      }
+    }
+  }
+
+
   return {
     props: {
       repos: repos,
+      maturity,
+
     },
   };
 }
 
+
+
+
 // @ts-ignore
-function Items({ currentItems, totalItems, itemOffset, endOffset  }) {
+function Items({ currentItems, totalItems, itemOffset, endOffset }) {
+
+  const maturity = useContext<MaturityPayload>(MaturityContext);
+  console.log({maturity})
+
+
   return (
     <>
-      <p className={"govuk-body"}>Showing {itemOffset + 1}-{Math.min(endOffset, totalItems)} of {totalItems} repositories</p>
+      <p className={"govuk-body"}>
+        Showing {itemOffset + 1}-{Math.min(endOffset, totalItems)} of{" "}
+        {totalItems} repositories
+      </p>
       <GridLayout cols={3}>
         {currentItems.map((r: any) => (
           <Card
@@ -33,6 +73,9 @@ function Items({ currentItems, totalItems, itemOffset, endOffset  }) {
             title={r.name}
             titleLinkUrl={`https://github.com/${r.owner}/${r.name}`}
             subtitle={r.owner}
+            maturity={
+              get(maturity, `${r.owner}.${r.name}.score`) as unknown as number
+            }
             tags={[
               {
                 name: "language",
@@ -127,7 +170,7 @@ function PaginatedItems({ itemsPerPage = 100, items }) {
   );
 }
 
-export default function Index({ repos }: { repos: any }) {
+export default function Index({ repos, maturity }: { repos: any, maturity: MaturityPayload }) {
   const [filtered, setFiltered] = useState({ search: "" });
   const [sorted, setSorted] = useState({ field: "owner", ascending: true });
   const [repositories, setRepositories] = useState(repos);
@@ -294,7 +337,9 @@ export default function Index({ repos }: { repos: any }) {
           </div>
 
           { repositories.length > 0 && (
-            <PaginatedItems itemsPerPage={60} items={repositories} />
+            <MaturityContext.Provider value={maturity}>
+              <PaginatedItems itemsPerPage={60} items={repositories} />
+            </MaturityContext.Provider>
             )
           }
           {repositories.length === 0 && (

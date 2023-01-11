@@ -27,9 +27,31 @@ interface CardContentProps {
   titleLinkUrl?: string;
   subtitle?: string;
 
+  maturity: number;
+
   tags?: Tag[];
 
   indicators?: Indicator[];
+}
+
+const whichColour = (score: number) : string => {
+  let result = "";
+
+  if (score >= 70) {
+    result = "green";
+  } else if (score > 30) {
+    result = "amber";
+  } else if (score <= 30) {
+    result = "red";
+  }
+
+  return result;
+}
+
+const colours : { [key: string]: string } = {
+  "red": "#ffc5c1",
+  "amber": "#ffd891",
+  "green": "#d6ffd6",
 }
 
 const Card: React.FC<CardContentProps> = ({
@@ -38,8 +60,9 @@ const Card: React.FC<CardContentProps> = ({
   subtitle,
   tags,
   indicators,
+  maturity,
 }) => (
-  <div className={styles.card}>
+  <div className={styles.card} style={{ backgroundColor: colours[whichColour(maturity)]}}>
     {subtitle && <div className={styles.org}>{subtitle}</div>}
     {titleLinkUrl ? (
       <Link href={titleLinkUrl}>
