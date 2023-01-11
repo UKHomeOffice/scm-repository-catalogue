@@ -1,0 +1,96 @@
+{
+  "licence": {
+    "values": [
+      {
+        "used": 452,
+        "available": 18,
+        "total": 470,
+        "lastUpdatedAt": 1670510783066
+      },
+      {
+        "used": 451,
+        "available": 19,
+        "total": 470,
+        "lastUpdatedAt": 1670569325645
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670655722404
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670742117481
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1670828552824
+      },
+      {
+        "used": 457,
+        "available": 13,
+        "total": 470,
+        "lastUpdatedAt": 1670914929417
+      },
+      {
+        "used": 458,
+        "available": 12,
+        "total": 470,
+        "lastUpdatedAt": 1671001338802
+      },
+      {
+        "used": 455,
+        "available": 15,
+        "total": 470,
+        "lastUpdatedAt": 1671087737039
+      },
+      {
+        "used": 455,
+        "available": 15,
+        "total": 470,
+        "lastUpdatedAt": 1671174121669
+      },
+      {
+        "used": 456,
+        "available": 14,
+        "total": 470,
+        "lastUpdatedAt": 1673004447088
+      },
+      {
+        "used": 458,
+        "available": 12,
+        "total": 470,
+        "lastUpdatedAt": 1673074945983
+      },
+      {
+        "used": 458,
+        "available": 12,
+        "total": 470,
+        "lastUpdatedAt": 1673161338512
+      },
+      {
+        "used": 458,
+        "available": 12,
+        "total": 470,
+        "lastUpdatedAt": 1673247753294
+      },
+      {
+        "used": 462,
+        "available": 8,
+        "total": 470,
+        "lastUpdatedAt": 1673334157996
+      },
+      {
+        "used": 463,
+        "available": 7,
+        "total": 470,
+        "lastUpdatedAt": 1673420559313
+      }
+    ]
+  }
+}

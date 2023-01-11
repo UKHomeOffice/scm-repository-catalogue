@@ -1,0 +1,36 @@
+{
+  "dormantUsers": {
+    "values": [
+      {
+        "collaborators": 57,
+        "outsidecollaborators": 120,
+        "total": 177,
+        "lastUpdatedAt": 1670328059000
+      },
+      {
+        "collaborators": 57,
+        "outsidecollaborators": 120,
+        "total": 177,
+        "lastUpdatedAt": 1670432098000
+      },
+      {
+        "collaborators": 57,
+        "outsidecollaborators": 120,
+        "total": 177,
+        "lastUpdatedAt": 1670446642000
+      },
+      {
+        "collaborators": 57,
+        "outsidecollaborators": 122,
+        "total": 179,
+        "lastUpdatedAt": 1670514649000
+      },
+      {
+        "collaborators": 59,
+        "outsidecollaborators": 137,
+        "total": 196,
+        "lastUpdatedAt": 1673015249319
+      }
+    ]
+  }
+}
