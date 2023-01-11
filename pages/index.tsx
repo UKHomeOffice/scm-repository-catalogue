@@ -84,7 +84,14 @@ function PaginatedItems({ itemsPerPage = 100, items }) {
 
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
+  const currentPage = Math.floor(itemOffset / itemsPerPage);
+
+
   const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  useEffect(() => {
+    setItemOffset(0);
+  }, [items])
 
   // @ts-ignore
   const handlePageClick = (event) => {
@@ -113,6 +120,7 @@ function PaginatedItems({ itemsPerPage = 100, items }) {
         activeLinkClassName={"govuk-link govuk-pagination__link"}
         containerClassName={"govuk-pagination"}
         disabledClassName={"govuk-button--disabled"}
+        forcePage={currentPage}
       />
       </nav>
     </>
@@ -285,7 +293,14 @@ export default function Index({ repos }: { repos: any }) {
             </div>
           </div>
 
-          <PaginatedItems itemsPerPage={60} items={repositories} />
+          { repositories.length > 0 && (
+            <PaginatedItems itemsPerPage={60} items={repositories} />
+            )
+          }
+          {repositories.length === 0 && (
+            <p className={"govuk-body"}>No repositories found</p>
+          )}
+
         </main>
       </div>
     </>
